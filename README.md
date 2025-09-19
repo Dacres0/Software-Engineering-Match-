@@ -14,10 +14,9 @@ The game will start by displaying a prompt asking you to pick a level between ch
 
 The game rules will begin in the following format;
 
-**Welcome to Match!**
-
 ----------------------------------------------------
 
+**Welcome to Match!**
 *Please choose Child of Adult Mode* 
 
 ----------------------------------------------------
