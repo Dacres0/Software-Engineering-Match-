@@ -29,6 +29,10 @@ Do you wish to accept ?
 
 In adult mode the game is controlled by 3 lives and words, whereas in the child mode the game is controlled by pictures and infinite lives, both options are able to quit the game at any time.
 
+# <ins>**_User Profiles_**</ins>
+
+The game will be based off of 2 user profiles; **Child and Adult**. These profiles will serve as difficulty levels, the child variation catering towards an easier mode, with images. This is to make the game more interactive and easily accessible for a younger person. The adult mode will be based on categories, to which general words can be matched. This is to add difficulty to the game concept, and force the user into decision making.
+
 
 
 
