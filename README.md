@@ -18,16 +18,22 @@ Welcome to Match
 Please choose Child of Adult Mode 
 
 How to Play? (Child)
-Match the word to the picture 
-Once all the pairs are matched, the game is over
+
+Match the word to the picture.
+
+Once all the pairs are matched, the game is over.
+
 Do you wish to accept ?
 
 ----------------------------------------------------
 
 How to play? (adult)
 Match the word into the category 
-One all the pairs are matched up, the game is over
-you have 3 lives
+
+One all the pairs are matched up, the game is over.
+
+You have 3 lives.
+
 Do you wish to accept ?
 
 ----------------------------------------------------
