@@ -15,7 +15,7 @@ The game rules will begin in the following format;
 ----------------------------------------------------
 
 **Welcome to Match!**
-*Please choose Child of Adult Mode* 
+*Please choose Child or Adult Mode* 
 
 ----------------------------------------------------
 
