@@ -52,6 +52,12 @@ The adult mode will be based on categories and lives to which general words can 
 
 # <ins>**_Functional Specifications_**</ins>
 
+- Processor: 1.6 GHz or faster
+- RAM: 4 GB
+- Storage: 4 GB available space
+- Operating System: Windows 10
+
+
 
 
 
