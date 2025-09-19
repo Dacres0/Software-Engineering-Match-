@@ -50,6 +50,10 @@ The game will be based off of 2 user profiles; **Child and Adult**. These profil
 
 The adult mode will be based on categories and lives to which general words can be matched. This is to add difficulty to the game concept, and force the user into decision making.
 
+# <ins>**_Functional Specifications_**</ins>
+
+
+
 
 
 
