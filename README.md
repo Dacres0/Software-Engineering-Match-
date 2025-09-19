@@ -14,10 +14,15 @@ The game will start by displaying a prompt asking you to pick a level between ch
 
 The game rules will begin in the following format;
 
-Welcome to Match
-Please choose Child of Adult Mode 
+**Welcome to Match!**
 
-How to Play? (Child)
+----------------------------------------------------
+
+*Please choose Child of Adult Mode* 
+
+----------------------------------------------------
+
+**How to Play? (Child)**
 
 Match the word to the picture.
 
@@ -27,7 +32,8 @@ Do you wish to accept ?
 
 ----------------------------------------------------
 
-How to play? (adult)
+**How to play? (Adult)**
+
 Match the word into the category 
 
 One all the pairs are matched up, the game is over.
