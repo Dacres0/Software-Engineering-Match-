@@ -2,7 +2,7 @@
 
 # <ins>**_Project Activities_**</ins>
 
-As a team we have discussed and reviewed each of the 3 options given to us, We have chosen to go with basing our project off of "Match". We feel we will be able to scale tasks and produce the best ideas for this concept.
+As a team we have discussed and reviewed each of the 3 options given to us, Jigsaw offers a highly interactive experience however there is limited complexity in gameplay, people can easily get tired of repeatedly doing the same thing. Cross word provides a strong cognitive challenge and increases critical thinking skills however for children they may find it too complex and it requires knowledge or guessing which for beginners may loose interest quickly. In the end  We have chosen to go with basing our project off of "Match". We feel we will be able to scale tasks and produce the best ideas for this concept. More so, the task can evolve to fit different themes from geography to professions, it provides a wide range of educational and fun ideas that fit multiple age demographics.
 
 For our primary target audience, we have put into consideration that mainly two groups of people will be playing a game like Match, such as younger children in an educational environment or older people during timepass.
 
