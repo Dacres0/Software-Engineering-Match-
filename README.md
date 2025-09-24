@@ -129,6 +129,22 @@ The adult mode will be based on categories and lives to which general words can 
 - AI Logic is necessary for a more dynamic difficulty, such as being able to adjust accordingly according to the user profile chosen. 
 - Collisions will be involved primarily in the child user profile, to detect if the images are dragged and dropped where they should be.
 
+# <ins>**_High Level NonFuntional specifications_**</ins>
+Aesthetic 
+The Match game will have a clean and minimalistic layout/design. For the child mode the aesthetic will contain colourful and playful images (shapes, cartoons, animals). The font will be a nice simplistic font that is easy to read and comprehend, finally the images for the child mode will be high quality and large enough to properly gather what the image displays. 
+
+Usability
+The game will have a simple navigation system with clear visual cues to understand what next to do, the game allows users of all ages to understand the game mechanics and get started to play the game without any prior skills or experience. There will be two different modes for adults and children so we cater for all ages.
+
+Feedback style
+Users playng the game will immediately receive feedback/comments after selecting "complete" when the user wants to see if they haved passed or failed the level. More so there will be positive reinforcement once a correct action is completed users will be rewards with a "correct!" +1
+
+Basic needs
+There will be two different modes that you can choose "adult" or "child", inside this there will be a possibility for a variety of levels for this game. Upon the game starting after selecting adult or child, the game will display the apropriate rules and instructions based on the mode selected. There will also be an option to restart and quit at any time, this will be via a user typing "QUIT", this will break the entire game at any time. 
+
+
+Error handling 
+If a user selects the wrong answer, they will be prompted to try again. If you have selected the child mode, the incorrect answer will trigger a repeat prompt until it is correct, however for the adult mode, the player will be given three chances before the game ends with a prompt saying "Game Over!".
 
 
 
