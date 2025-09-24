@@ -76,7 +76,7 @@ Gaming experience: Plays on her mini ipad on games like colouring books, minecra
 
 ----------------------------------------------------
 
-**_User profile 2: Adult Casual Gamer_**
+**_User Profile 2: Adult Casual Gamer_**
 
 Name: Fred Patel 
 
