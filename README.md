@@ -154,7 +154,7 @@ If a user selects the wrong answer, they will be prompted to try again. If you h
 
 # <ins>**_StoryBoards_**</ins>
 
-**Storyboard 1: (Welcome Screen)**
+**Storyboard 1 (Welcome Screen)**
 
 Title: "Welcome to the Matching Game!"
 
@@ -168,7 +168,7 @@ Note at bottom: “To quit at any time, type ‘QUIT’.”
 
 
 
-**Storyboard 2: (Rules & Mechanics)**
+**Storyboard 2 (Rules & Mechanics)**
 
 Title: "Game Rules"
 
