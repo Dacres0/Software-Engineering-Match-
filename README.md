@@ -125,7 +125,9 @@ The adult mode will be based on categories and lives to which general words can 
 - A quit function that is accessible throughout the entirety of the playthrough, by typing "quit" to exit.
 - A scoring and penalty system, that awards +1 points for each correct match, setting a win condition at 5 points, while deducting -1 point per incorrect match (for adult mode), ending the game at 0 lives.
 - Replayability function, as offered by the prompt to replay at the end of each round.
-
+- A timer mechanism will be included within the adult user profile, serving as added difficulty, where there can be a short timer per round for the adult to be able to make their decision, otherwise they will lose a life.
+- AI Logic is necessary for a more dynamic difficulty, such as being able to adjust accordingly according to the user profile chosen. 
+- Collisions will be involved primarily in the child user profile, to detect if the images are dragged and dropped where they should be.
 
 
 
