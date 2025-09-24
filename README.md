@@ -172,13 +172,13 @@ Note at bottom: “To quit at any time, type ‘QUIT’.”
 
 Title: "Game Rules"
 
-Text changes based on level selected:
+Text changed based on level selected
 
 Child Mode: “Match the word to the correct image. Get 5 right to win! If you make a mistake, you’ll try again until it’s correct.”
 
 Adult Mode: “Match the word to the correct category. You have 3 lives. Get 5 right to win!”
 
-Prompt:
+Prompt
 
 [Accept Rules]
 
