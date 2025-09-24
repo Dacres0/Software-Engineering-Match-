@@ -256,5 +256,14 @@ Prompt: [Try Again] or [Exit]
 
 
 
+# <ins>**_Mockups_**</ins>
+
+**MAIN MENU:**
+
+<img width="1118" height="710" alt="image" src="https://github.com/user-attachments/assets/bf875143-7467-4cb4-995a-b6caebfc5aa6" />
+
+
+
+
 
 
