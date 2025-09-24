@@ -152,8 +152,102 @@ There will be two different modes that you can choose "adult" or "child", inside
 
 If a user selects the wrong answer, they will be prompted to try again. If you have selected the child mode, the incorrect answer will trigger a repeat prompt until it is correct, however for the adult mode, the player will be given three chances before the game ends with a prompt saying "Game Over!".
 
+# <ins>**_StoryBoards_**</ins>
+
+**Storyboard 1: Welcome Screen**
+
+Title: "Welcome to the Matching Game!"
+
+Prompt: “Please choose your level:”
+
+[Child Mode]
+
+[Adult Mode]
+
+Note at bottom: “To quit at any time, type ‘QUIT’.”
 
 
+**Storyboard 2: Rules & Mechanics**
+
+Title: "Game Rules"
+
+Text changes based on level selected:
+
+Child Mode: “Match the word to the correct image. Get 5 right to win! If you make a mistake, you’ll try again until it’s correct.”
+
+Adult Mode: “Match the word to the correct category. You have 3 lives. Get 5 right to win!”
+
+Prompt:
+
+[Accept Rules]
+
+[Decline Rules]
+
+
+**Storyboard 3: Decline Rules Flow**
+
+Text: “Thank you for playing!”
+
+Action: Game ends.
+
+
+**Storyboard 4: Game Start (Common)**
+
+Text (bottom of screen): “To quit at any time, type ‘QUIT’.”
+
+Storyboard 5: Child Mode – Game Play Loop
+
+Visual: 3–5 images displayed (e.g., dog, apple, car)
+
+Draggable words: "Dog", "Banana", "Car", etc.
+
+User Action: Drag the correct word to correct image.
+
+Feedback:
+
+✅ Correct: +1 Score. Move to next image.
+
+❌ Incorrect: Prompt – “That’s incorrect. Try again!” (Loop until correct)
+
+Score Tracking: Score displayed at top (e.g., “Score: 3/5”)
+
+End Condition: When Score = 5/5 → Go to Win Screen.
+
+
+**Storyboard 6: Adult Mode – Game Play Loop**
+
+Visual: Categories displayed (e.g., Animals, Fruits, Vehicles)
+
+Words appear: "Dog", "Car", "Banana", etc.
+
+User Action: Drag words into correct categories.
+
+Feedback:
+
+✅ Correct: +1 Score
+
+❌ Incorrect: “That’s incorrect. Try again!”
+
+Lose 1 life
+
+Show remaining lives (e.g., "Lives: 2/3")
+
+Lose Condition: If 0 lives → “Game Over”
+
+Win Condition: Score = 5/5 → Go to Win Screen
+
+
+**Storyboard 7: Win Screen**
+
+Text: “Congratulations! You won the game!”
+
+Prompt: [Play Again] or [Exit]
+
+Storyboard 8: Game Over (Adult Only)
+
+Text: “Game Over! Better luck next time.”
+
+Prompt: [Try Again] or [Exit]
 
 
 
