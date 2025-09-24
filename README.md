@@ -167,6 +167,7 @@ Prompt: “Please choose your level:”
 Note at bottom: “To quit at any time, type ‘QUIT’.”
 
 
+
 **Storyboard 2: Rules & Mechanics**
 
 Title: "Game Rules"
@@ -184,11 +185,13 @@ Prompt:
 [Decline Rules]
 
 
+
 **Storyboard 3: Decline Rules Flow**
 
 Text: “Thank you for playing!”
 
 Action: Game ends.
+
 
 
 **Storyboard 4: Game Start (Common)**
@@ -214,6 +217,7 @@ Score Tracking: Score displayed at top (e.g., “Score: 3/5”)
 End Condition: When Score = 5/5 → Go to Win Screen.
 
 
+
 **Storyboard 6: Adult Mode – Game Play Loop**
 
 Visual: Categories displayed (e.g., Animals, Fruits, Vehicles)
@@ -235,6 +239,7 @@ Show remaining lives (e.g., "Lives: 2/3")
 Lose Condition: If 0 lives → “Game Over”
 
 Win Condition: Score = 5/5 → Go to Win Screen
+
 
 
 **Storyboard 7: Win Screen**
