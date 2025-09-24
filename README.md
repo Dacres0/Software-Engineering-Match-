@@ -262,6 +262,8 @@ Prompt: [Try Again] or [Exit]
 
 <img width="1118" height="710" alt="image" src="https://github.com/user-attachments/assets/bf875143-7467-4cb4-995a-b6caebfc5aa6" />
 
+**CHILD GAME MENU:**
+
 <img width="1214" height="809" alt="image" src="https://github.com/user-attachments/assets/11d79890-6e0c-470e-9f05-a4637d323c0c" />
 
 
