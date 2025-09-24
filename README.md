@@ -57,6 +57,16 @@ The adult mode will be based on categories and lives to which general words can 
 - RAM: 4 GB
 - Storage: 4 GB available space
 - Operating System: Windows 10
+- A desktop with input devices
+
+# <ins>**_Application Functions_**</ins>
+
+- An interactive menu, that prompts user to choose between the two user profiles / gamemodes available "Child" and "Adult".
+- A rules and instructions screen that displays the objectives of whichever mode is chosen by the user.
+- A "drag and drop" mechanism for the child mode, to match the images.
+- A quit function that is accessible throughout the entirety of the playthrough, by typing "quit" to exit.
+- A scoring and penalty system, that awards +1 points for each correct match, setting a win condition at 5 points, while deducting -1 point per incorrect match (for adult mode), ending the game at 0 lives.
+- Replayability function, as offered by the prompt to replay at the end of each round.
 
 
 
