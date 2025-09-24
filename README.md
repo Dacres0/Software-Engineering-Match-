@@ -46,9 +46,9 @@ In adult mode the game is controlled by 3 lives and words, whereas in the child 
 
 # <ins>**_User Profiles_**</ins>
 
-The game will be based off of 2 user profiles; **Child and Adult**. These profiles will serve as difficulty levels, the child variation catering towards an easier mode, with images. This is to make the game more interactive and easily accessible for a younger person.
+The game will be based off of 2 user profiles; **Child and Adult**. These profiles will serve as difficulty levels, the child variation catering towards an easier mode, with images. This is to make the game more interactive and easily accessible for a younger person. The younger person will want a game that is easy to play/understand, that does not require a range of skills and a game that interests them with colourful photos. The childs needs will be a simplistic game mode with few functions that make it fun and enjoyable to play. 
 
-The adult mode will be based on categories and lives to which general words can be matched. This is to add difficulty to the game concept, and force the user into decision making.
+The adult mode will be based on categories and lives to which general words can be matched. This is to add difficulty to the game concept, and force the user into decision making. The adult person will want a game that can be challenging at times, something that is a bit more intellectual (word categories instead of photos) as well as the ability to loose the game via volume of lives they have. Their needs include similar things where the game has multiple levels and functions with ability to quit the game at any point. 
 
 # <ins>**_Functional Specifications_**</ins>
 
