@@ -268,6 +268,9 @@ Prompt: [Try Again] or [Exit]
 
 <img width="1214" height="809" alt="image" src="https://github.com/user-attachments/assets/11d79890-6e0c-470e-9f05-a4637d323c0c" />
 
+**ADULT GAME MENU:**
+
+<img width="1473" height="836" alt="image" src="https://github.com/user-attachments/assets/e1d09872-7151-4384-94ed-517d71525685" />
 
 
 
