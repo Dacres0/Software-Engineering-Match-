@@ -117,7 +117,7 @@ The adult mode will be based on categories and lives to which general words can 
 - Operating System: Windows 10
 - A desktop with input devices
 
-# <ins>**_Application Functions_**</ins>
+# <ins>**_High Level Applicational Functions_**</ins>
 
 - An interactive menu, that prompts user to choose between the two user profiles / gamemodes available "Child" and "Adult".
 - A rules and instructions screen that displays the objectives of whichever mode is chosen by the user.
@@ -129,7 +129,7 @@ The adult mode will be based on categories and lives to which general words can 
 - AI Logic is necessary for a more dynamic difficulty, such as being able to adjust accordingly according to the user profile chosen. 
 - Collisions will be involved primarily in the child user profile, to detect if the images are dragged and dropped where they should be.
 
-# <ins>**_High Level NonFuntional specifications_**</ins>
+# <ins>**_High Level Non Funtional specifications_**</ins>
 
 **Aesthetics** 
 
