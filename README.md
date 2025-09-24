@@ -154,7 +154,7 @@ If a user selects the wrong answer, they will be prompted to try again. If you h
 
 # <ins>**_StoryBoards_**</ins>
 
-**Storyboard 1: Welcome Screen**
+**Storyboard 1: (Welcome Screen)**
 
 Title: "Welcome to the Matching Game!"
 
@@ -168,7 +168,7 @@ Note at bottom: “To quit at any time, type ‘QUIT’.”
 
 
 
-**Storyboard 2: Rules & Mechanics**
+**Storyboard 2: (Rules & Mechanics)**
 
 Title: "Game Rules"
 
@@ -186,7 +186,7 @@ Prompt
 
 
 
-**Storyboard 3: Decline Rules Flow**
+**Storyboard 3 (Decline Rules Flow)**
 
 Text: “Thank you for playing!”
 
@@ -194,7 +194,7 @@ Action: Game ends.
 
 
 
-**Storyboard 4: Game Start (Common)**
+**Storyboard 4 (Game Start)**
 
 Text (bottom of screen): “To quit at any time, type ‘QUIT’.”
 
@@ -218,7 +218,7 @@ End Condition: When Score = 5/5 → Go to Win Screen.
 
 
 
-**Storyboard 6: Adult Mode – Game Play Loop**
+**Storyboard 6 (Adult Mode – Game Play Loop)**
 
 Visual: Categories displayed (e.g., Animals, Fruits, Vehicles)
 
@@ -242,7 +242,7 @@ Win Condition: Score = 5/5 → Go to Win Screen
 
 
 
-**Storyboard 7: Win Screen**
+**Storyboard 7  (Win Screen)**
 
 Text: “Congratulations! You won the game!”
 
