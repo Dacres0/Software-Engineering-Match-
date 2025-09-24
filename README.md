@@ -46,37 +46,63 @@ In adult mode the game is controlled by 3 lives and words, whereas in the child 
 
 # <ins>**_User Profiles_**</ins>
 
-user profile 1: Child gamer
-Name: Leah Carter 
+----------------------------------------------------
+
+**_User Profile 1: Child gamer_** 
+
+Name: Leah Carter
+
 Age: 5
+
 Location: Paris, France
+
 Gaming experience: Plays on her mini ipad on games like colouring books, minecraft, mario kart
 
-wants/needs;
-- Easy to understand controls
--Bright pictures with bright colours 
--positive feedback (well done!)
--quick levels
+**Wants/Needs;**
 
-frustrations
+-Easy to understand controls
+  
+-Bright pictures with bright colours
+
+-Positive Feedback (well done!)
+
+-Quick Levels
+
+**Frustrations**
+
 -Leah has a short attention span
+
 -She doesn't like overly hard levels
 
-User profile 2: Adult casual gamer
+----------------------------------------------------
+
+**_User profile 2: Adult Casual Gamer_**
+
 Name: Fred Patel 
+
 Age: 36
+
 Location: Bournmouth, UK
+
 Gaming experience: Casual gamer, owns and plays on a pc, enjoys puzzle games
 
-wants/needs:
--Short sessions (able to play during lunch breaks
--smooth and aesthetic UI
--More challenging levels (challenging topics with a timer to complete level in)
--option to quit at any time
+**Wants/Needs:**
 
-Frustrations:
+-Short sessions (able to play during lunch breaks
+
+-Smooth and aesthetic UI
+
+-More challenging levels (challenging topics with a timer to complete level in)
+
+-Option to quit at any time
+
+**Frustrations:**
+
 -Doesn't have enough time to spend a long time on one level
--hates games that don't include lives or a way you can loose
+
+-Hates games that don't include lives or a way you can loose
+
+----------------------------------------------------
 
 The game will be based off of 2 user profiles; **Child and Adult**. These profiles will serve as difficulty levels, the child variation catering towards an easier mode, with images. This is to make the game more interactive and easily accessible for a younger person. The younger person will want a game that is easy to play/understand, that does not require a range of skills and a game that interests them with colourful photos. The childs needs will be a simplistic game mode with few functions that make it fun and enjoyable to play. 
 
