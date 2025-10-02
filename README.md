@@ -338,7 +338,7 @@ We will begin by working in short sprints, so we can begin on the foundation for
 
 <ins>**_Sprint 5 – Deployment_**</ins>
 
-- Deploy the website on Git.
+- Deploy the website for the game on Git.
 
 <ins>**_Sprint 6 – Post Project Documentation_**</ins>
 
