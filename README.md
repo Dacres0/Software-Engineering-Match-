@@ -307,37 +307,39 @@ We will begin by working in short sprints, so we can begin on the foundation for
 
 <ins>**_Sprint 1 – Game Design and Mockups_**</ins>
 
-Plan the core functions of the game, as such we have already begun on working on the wireframes and mockups for how the game should present itself and be played. 
+- Plan the core functions of the game, as such we have already begun on working on the wireframes and mockups for how the game should present itself and be played. 
 
-Create a Git repository to organise the code.
+- Create a Git repository to organise the code.
 
 <ins>**_Sprint 2 - Core Implementation_**</ins>
 
-Create a basic game loop, to get from menu > mode > game > quit and/or replay.
+- Create a basic game loop, to get from menu > mode > game > quit and/or replay.
 
-Implement Child Mode first as it's easier, with interactive images and collision detection.
+- Implement Child Mode first as it's easier, with interactive images and collision detection.
 
-Implement Adult Mode, with a more sophisticated system of timers, scoring, lives, and categories.
+- Implement Adult Mode, with a more sophisticated system of timers, scoring, lives, and categories.
 
 <ins>**_Sprint 3 – Advanced Implementation_**</ins>
 
-Adding a timer, and penalty system to Adult Mode.
+- Adding a timer, and penalty system to Adult Mode.
 
-Adding a win/loss condition to Adult Mode.
+- Adding a win/loss condition to Adult Mode.
 
-Add a functioning replayability mechanic to both modes.
+- Add a functioning replayability mechanic to both modes.
 
 <ins>**_Sprint 4 – Debug and Testing_**</ins>
 
-Individually test each function added to the game.
+- Individually test each function added to the game.
 
-Log bugs encountered and testing within a test plan.
+- Log bugs encountered and testing within a test plan.
 
-Playtest both modes.
+- Playtest both modes.
 
 <ins>**_Sprint 5 – Deployment_**</ins>
 
+- Deploy the website on any hosting service.
+
 <ins>**_Sprint 6 – Post Project Documentation_**</ins>
 
-Peer review of our group members, and critical reflection document on individual achievements and contributions.
+- Peer review of our group members, and critical reflection document on individual achievements and contributions.
 
