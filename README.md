@@ -342,4 +342,3 @@ We will begin by working in short sprints, so we can begin on the foundation for
 <ins>**_Sprint 6 – Post Project Documentation_**</ins>
 
 - Peer review of our group members, and critical reflection document on individual achievements and contributions.
-
