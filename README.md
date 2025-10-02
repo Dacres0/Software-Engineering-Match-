@@ -1,4 +1,5 @@
-# Software-Engineering-Match / Daniel and Mahdiat
+# <p align=center> Software-Engineering-Match / Daniel and Mahdiat </p>
+
 
 # <ins>**_Project Activities_**</ins>
 
