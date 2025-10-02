@@ -277,6 +277,28 @@ Prompt: [Try Again] or [Exit]
 
 # <ins>**_Project Risks_**</ins>
 
+**Technical Knowledge**
+
+We are both a bit rusty and might lack some coding experience for some of the planned aspects for the game, the learning curve introduced from this can slow overall progress.
+
+**Project Scope**
+
+There are many planned features and implementations for the project, as such it's possible we might not be able to do everything to the best of our abilities, as we may have planned outside of what's capable for us in the time given.
+
+This can lead to game breaking bugs.
+
+**Testing**
+
+If we are pressed for time, testing which usually comes in the final phases of software projects, can be done incomplete or not to the extent it should be done, which can give room for hidden bugs or problems to show during release.
+
+**Integration of many features**
+
+Due to so many features being planned for the game, it will be difficult to be able to make everything work together, as issues such as incompatible libraries can happen.
+
+**Player Experience**
+
+We have to ensure both modes are fully playable and enjoyable for their intended playerbases. If for "Child Mode" images aren't interactive then they will struggle, if the timer is too short or broken on "Adult Mode" then the game will be frustrating and unplayable.
+
 
 
 
