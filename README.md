@@ -275,6 +275,8 @@ Prompt: [Try Again] or [Exit]
 <img width="1473" height="836" alt="image" src="https://github.com/user-attachments/assets/e1d09872-7151-4384-94ed-517d71525685" />
 
 
+# <ins>**_Project Risks_**</ins>
+
 
 
 
