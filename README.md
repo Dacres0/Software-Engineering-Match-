@@ -299,6 +299,6 @@ Due to so many features being planned for the game, it will be difficult to be a
 
 We have to ensure both modes are fully playable and enjoyable for their intended playerbases. If for "Child Mode" images aren't interactive then they will struggle, if the timer is too short or broken on "Adult Mode" then the game will be frustrating and unplayable.
 
-
+# <ins>**_Software Development Strategy_**</ins>
 
 
