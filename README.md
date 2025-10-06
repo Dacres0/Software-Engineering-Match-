@@ -344,5 +344,5 @@ We will begin by working in short sprints, so we can begin on the foundation for
 - Peer review of our group members, and critical reflection document on individual achievements and contributions.
 
 **TEST PLAN:**
-<img width="1473" height="836" alt="image" src="<img width="613" height="842" alt="image" src="https://github.com/user-attachments/assets/5eb12527-5b5f-41d3-a813-a80459ce6784" />
-" />
+
+<img width="613" height="842" alt="image" src="https://github.com/user-attachments/assets/5eb12527-5b5f-41d3-a813-a80459ce6784" />
