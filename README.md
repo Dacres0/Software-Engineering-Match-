@@ -447,4 +447,23 @@ main loop
 #    if failedAttempts >= 2:
 #     showHintForCorrectTarget(item)
 
+Timer Rule
 
+#function startRoundTimer():
+#  remaining = game.timerPerRound
+#  timer = setInterval(() => {
+#    remaining -= 1
+#    updateTimerUI(remaining)
+#    if remaining <= 0:
+#      clearInterval(timer)
+#      handleIncorrectTimeout()
+#  }, 1000)
+
+#function handleIncorrectTimeout():
+#  game.lives -= 1
+#  showFeedback("Time's up! -1 life")
+#  if game.lives <= 0:
+#    game.state = LOSE
+#    showGameOver()
+#  else:
+#    nextRound()
