@@ -375,3 +375,76 @@ Gameplay/UX improvements
 - Progress bar for score (e.g., 3/5 filled). Shows remaining to win.
 - Soft help: for child mode, after 2 failed attempts, show a subtle hint (pulse the correct target).
 - Adaptive difficulty (simple): if adult player gets 4/5 in under target time consistently, reduce timer by 10% (simple heuristic).
+
+**Agreed project requirements**
+
+- Main menu + rules screens + Accept/Decline flow.
+
+- Child mode: 5-match rounds, drag-and-drop, infinite retries, score tracking, win screen, quit/replay.
+
+- Adult mode: 5-match rounds, categories + words, drag-to-category, 3 lives, per-round timer, lose/win screens.
+
+- Basic assets (placeholder images & words).
+
+- Local state save per session (so replay/prompt works).
+
+- Unit tests or manual test checklist for core flows (start, correct/incorrect, win, lose).
+
+- Responsive UI for desktop & tablet.
+
+**Basic pseudo-code for core in-game functions, actions and logic*
+
+#Game {
+#  mode: "child" | "adult"
+#  score: int
+#  requiredToWin: 5
+#  lives: int          // adult only (3)
+#  timerPerRound: int  // adult only, seconds
+#  itemsPool: list     // images or words
+#  targets: list       // images (child) or categories (adult)
+#  currentRoundItems: list
+#  state: START | PLAYING | WIN | LOSE | QUIT
+#}
+
+main loop 
+
+
+#function startGame(mode):
+#  game.mode = mode
+#  game.score = 0
+# game.lives = (mode == "adult") ? 3 : Infinity
+#  game.currentRoundItems = sampleItems(mode)
+#  game.state = PLAYING
+#  showGameUI()
+
+#onUserDrag(item, target):
+#  if game.state != PLAYING: return
+#  if isMatch(item, target):
+#    handleCorrect(item, target)
+#  else:
+#    handleIncorrect(item, target)
+
+#function handleCorrect(item, target):
+#  game.score += 1
+#  showFeedback("Correct! +1")
+#  lockPair(item, target)  # disable further interaction
+#  if game.score >= game.requiredToWin:
+#    game.state = WIN
+#    showWinScreen()
+#  else:
+ #   loadNextPairIfNeeded()
+
+#function handleIncorrect(item, target):
+#  showFeedback("That's incorrect. Try again!")
+#  if game.mode == "adult":
+#    game.lives -= 1
+#    updateLivesUI()
+#    if game.lives <= 0:
+#      game.state = LOSE
+#      showGameOver()
+#  else:  # child
+#    incrementFailedAttemptsForPair(item)
+#    if failedAttempts >= 2:
+#     showHintForCorrectTarget(item)
+
+
