@@ -372,3 +372,6 @@ HCI focus
 
 Gameplay/UX improvements
 
+- Progress bar for score (e.g., 3/5 filled). Shows remaining to win.
+- Soft help: for child mode, after 2 failed attempts, show a subtle hint (pulse the correct target).
+- Adaptive difficulty (simple): if adult player gets 4/5 in under target time consistently, reduce timer by 10% (simple heuristic).
