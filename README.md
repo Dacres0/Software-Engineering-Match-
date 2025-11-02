@@ -348,6 +348,7 @@ We will begin by working in short sprints, so we can begin on the foundation for
 <img width="613" height="842" alt="image" src="https://github.com/user-attachments/assets/5eb12527-5b5f-41d3-a813-a80459ce6784" />
 
 
+
 **Refined & improved specification**
 
 In scope 
