@@ -506,3 +506,6 @@ Timer Rule
 
 - Track attempts[itemId] per pair. After 2 failed attempts in child mode, show hint. Reset attempts when pair is solved.
 - Persisting state (session only): store in localStorage or in-memory model until replay/quit.
+
+**implementation suggestions**
+
