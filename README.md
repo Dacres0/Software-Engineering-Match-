@@ -469,3 +469,39 @@ Timer Rule
 #    nextRound()
 
 **Game state management**
+
+**Primary states**
+
+- MENU — main menu displayed
+- RULES — rules/instruction screen
+- PLAYING — active gameplay
+- PAUSED — optional (if timer)
+- WIN — win screen
+- GAME_OVER — lose screen (adult)
+- QUIT/EXIT — teardown
+
+**State transitions & triggers**
+
+- MENU -> RULES : user chooses mode
+- RULES -> PLAYING : user accepts
+- RULES -> QUIT : user declines
+- PLAYING -> WIN : score >= requiredToWin
+- PLAYING -> GAME_OVER : adult mode lives == 0
+- PLAYING -> QUIT : user types QUIT or taps Quit
+- PAUSED used when modal shown (confirm quit) — resume to PLAYING
+
+**Monitoring & detection**
+
+- Score monitoring: increment on handleCorrect(), check score >= requiredToWin after update.
+- Lives monitoring: decrement on incorrect (adult) and on timeout; check lives <= 0.
+- Timer: per-round countdown (adult): use a reliable setInterval with drift correction (save endTime = now + seconds and compute remaining by endTime - now) to avoid timer drift.
+
+ **Collision detection**
+
+- When user releases draggable, test bounding-box overlap between draggable and each target.
+- Use touch/mouse event listeners; allow keyboard fallback where a focused word can be assigned to selected image with a key press.
+
+**Retry/hint logic**
+
+- Track attempts[itemId] per pair. After 2 failed attempts in child mode, show hint. Reset attempts when pair is solved.
+- Persisting state (session only): store in localStorage or in-memory model until replay/quit.
