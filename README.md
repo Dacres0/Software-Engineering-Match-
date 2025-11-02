@@ -509,3 +509,5 @@ Timer Rule
 
 **implementation suggestions**
 
+- Different levels e.g. 1-10 instead of two different modes or more modes like beginner, novice, intermidate, expert, impossible
+- 
