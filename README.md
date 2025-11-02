@@ -350,13 +350,25 @@ We will begin by working in short sprints, so we can begin on the foundation for
 
 **Refined & improved specification**
 
+In scope 
+
 - Two modes: Child (image + word drag-and-drop, infinite retries, win at 5/5) and Adult (word → category drag, 3 lives, timer per round, win at 5/5).
-
 - Main menu, rules screen with Accept/Decline, global QUIT command, scoring display, replay/exit screens.
-
 - Drag-and-drop and simple collision detection for matching.
+-  10 image/word items for child and ~20 words + 4 categories for adult (to be reused across levels).
 
-- 10 image/word items for child and ~20 words + 4 categories for adult (to be reused across levels).
+out of scope 
 
-  
+- Full AI dynamic difficulty (replace with simple heuristics for MVP — adaptive pool sizes / shorter timer on success).
+- Complex level/theme editor or content pipeline.
+- Networked/multiplayer features, accounts, analytics beyond simple local logging.
+
+
+HCI focus 
+
+- Replace “infinite lives for child” with “no lives; show encouraging message and highlight correct target after 3 failed attempts” — avoids frustration loop.
+- Provide single consistent quit control: a visible Quit button and a typed QUIT console; the visible control is primary for kids.
+- Feedback: visual (green highlight + +1), audio beep (optional), text feedback line ("Well done!" / "Try again!") — keep messages short.
+
+Gameplay/UX improvements
 
