@@ -467,3 +467,5 @@ Timer Rule
 #    showGameOver()
 #  else:
 #    nextRound()
+
+**Game state management**
