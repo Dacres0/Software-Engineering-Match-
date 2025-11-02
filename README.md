@@ -350,3 +350,13 @@ We will begin by working in short sprints, so we can begin on the foundation for
 
 **Refined & improved specification**
 
+- Two modes: Child (image + word drag-and-drop, infinite retries, win at 5/5) and Adult (word → category drag, 3 lives, timer per round, win at 5/5).
+
+- Main menu, rules screen with Accept/Decline, global QUIT command, scoring display, replay/exit screens.
+
+- Drag-and-drop and simple collision detection for matching.
+
+- 10 image/word items for child and ~20 words + 4 categories for adult (to be reused across levels).
+
+  
+
