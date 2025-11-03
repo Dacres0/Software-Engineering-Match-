@@ -512,4 +512,9 @@ Timer Rule
 **implementation suggestions**
 
 - Different levels e.g. 1-10 instead of two different modes or more modes like beginner, novice, intermidate, expert, impossible
-- 
+
+**TEST PLAN**
+<img width="642" height="639" alt="image" src="https://github.com/user-attachments/assets/1d9f0f88-4a14-4fd2-9f19-63a1a39f756d" />
+
+
+
