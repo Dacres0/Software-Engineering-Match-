@@ -1,5 +1,7 @@
 # <p align=center> [Software-Engineering-Match / Daniel and Mahdiat](https://placehold.it/150/ffffff/ff0000?text=hello) </p>
 
+# <ins>**_https://lucid.app/lucidchart/bbf8c137-49ed-412b-8f2c-4cb7341bb818/edit?viewport_loc=-407%2C-306%2C4488%2C2216%2C0_0&invitationId=inv_fb4eb3ab-9eff-483e-9b1a-541c7c0e5dd5 - UML FLOWCHART_**</ins>
+
 # <ins>**_Project Activities_**</ins>
 
 As a team we have discussed and reviewed each of the 3 options given to us, Jigsaw offers a highly interactive experience however there is limited complexity in gameplay, people can easily get tired of repeatedly doing the same thing. Cross word provides a strong cognitive challenge and increases critical thinking skills however for children they may find it too complex and it requires knowledge or guessing which for beginners may loose interest quickly. In the end  We have chosen to go with basing our project off of "Match". We feel we will be able to scale tasks and produce the best ideas for this concept. More so, the task can evolve to fit different themes from geography to professions, it provides a wide range of educational and fun ideas that fit multiple age demographics.
