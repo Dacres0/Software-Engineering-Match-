@@ -3,643 +3,605 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Match — Child & Adult Modes (Demo)</title>
+<title>MATCH — Final Project (Presentation)</title>
+
+<!--
+  MATCH — Final Presentation Edition
+  - Landscape framed UI
+  - Hybrid Light/Dark theme (persisted)
+  - Animated background gradient (Option A)
+  - Emoji-based child tiles
+  - Child & Adult modes, hints, 3 lives (adult), 10s timer (adult), win at 5
+  - Draggable words: black text in light mode, white in dark mode
+  - Single-file HTML/CSS/JS
+  - Linked conceptually to "Match — Project Activities & Plan"
+-->
+
 <style>
   :root{
-    --bg:#ffffff;
-    --panel:#e6e6e6;
-    --accent:#222;
-    --muted:#666;
-    --good:#2b9d3a;
-    --bad:#e04b4b;
-    --btn:#dcdcdc;
-    --card-radius:28px;
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --radius:22px;
+    --shadow-lg: 0 30px 80px rgba(12,12,30,0.18);
+    --shadow-sm: 0 8px 30px rgba(12,12,30,0.06);
+    --accent: #0f1724;
+    --muted: #6b7280;
+    --primary: #2563eb;
+    --success: #16a34a;
+    --danger: #ef4444;
   }
-  html,body{height:100%;margin:0;background:var(--bg);color:var(--accent);}
-  .app{
+
+  /* Animated background gradients */
+  html { height:100%; }
+  body {
+    margin:0;
     min-height:100vh;
     display:flex;
-    align-items:flex-start;
-    justify-content:center;
-    padding:28px;
-  }
-
-  /* Header / Logo */
-  header{
-    width:100%;
-    max-width:1000px;
-    display:flex;
-    justify-content:space-between;
     align-items:center;
-    margin-bottom:12px;
+    justify-content:center;
+    font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    background: linear-gradient(120deg, #e6f0ff 0%, #fff7ff 35%, #f8fff6 100%);
+    transition: background 800ms ease;
   }
-  header h1{
-    font-size:48px;
-    margin:0;
-    background:var(--panel);
-    padding:14px 36px;
-    border-radius:6px;
-    letter-spacing:2px;
-  }
-  .logo{
-    font-size:14px;
-    color:var(--muted);
-    border:2px solid var(--panel);
-    padding:8px 12px;
-    border-radius:10px;
+  html[data-theme="dark"] body {
+    background: linear-gradient(120deg, #020617 0%, #04102a 45%, #061229 100%);
   }
 
-  /* Main card */
-  .card{
-    width:100%;
-    max-width:1000px;
-    background: #fff;
-    padding:22px;
-    border-radius:14px;
-    box-shadow: 0 6px 22px rgba(20,20,20,0.06);
+  /* presentation canvas */
+  .canvas {
+    width: 1200px;
+    max-width: calc(100% - 40px);
+    height: 720px;
+    border-radius: calc(var(--radius) + 4px);
+    padding: 26px;
+    box-shadow: var(--shadow-lg);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    position:relative;
+    overflow:hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,0.86), rgba(250,252,255,0.72));
+    transition: background 500ms ease, transform 220ms ease;
   }
+  html[data-theme="dark"] .canvas {
+    background: linear-gradient(180deg, rgba(6,8,15,0.86), rgba(8,12,24,0.6));
+  }
+
+  /* title */
+  header { display:flex; align-items:center; justify-content:space-between; gap:8px }
+  .title { font-size:56px; margin:0; font-weight:900; letter-spacing:6px; color:var(--accent); }
+  html[data-theme="dark"] .title { color:#e6eef8; }
+  .subtitle { font-size:13px; color:var(--muted); margin-top:4px; }
+
+  /* controls */
+  .controls { display:flex; gap:10px; align-items:center; }
+  .theme-toggle{
+    display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:12px; cursor:pointer; font-weight:800;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.85));
+    transition: transform .18s ease, background .3s;
+  }
+  html[data-theme="dark"] .theme-toggle {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  }
+  .theme-toggle:hover { transform: translateY(-3px) }
 
   /* menu */
-  .menu{
-    display:flex;
-    gap:18px;
-    align-items:center;
-    justify-content:center;
-    margin-bottom:20px;
+  .menu { display:flex; gap:12px; justify-content:center; margin-top:10px; }
+  .mode-btn {
+    padding:12px 20px; border-radius:999px; font-weight:900; font-size:18px; cursor:pointer; border:none;
+    background: linear-gradient(180deg,#ffffff,#eef4ff); box-shadow: var(--shadow-sm);
   }
-  .mode-btn{
-    background:var(--panel);
-    border-radius:40px;
-    padding:18px 36px;
-    font-weight:700;
-    font-size:28px;
-    cursor:pointer;
-    border: none;
-    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.03);
-  }
-  .mode-btn.quiet{font-size:18px;padding:10px 18px;border-radius:16px}
+  html[data-theme="dark"] .mode-btn { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); color:#e6eef8; }
 
-  /* game area */
-  .game-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:12px;
-    margin-bottom:18px;
-  }
-  .status{
-    display:flex;
-    gap:18px;
-    align-items:center;
-    font-weight:600;
-  }
-  .score-box, .lives-box{
-    background:var(--panel);
-    padding:8px 12px;border-radius:12px;
-  }
+  /* main landscape area */
+  .main { display:flex; gap:18px; align-items:stretch; flex:1; margin-top:6px; }
+  .board { flex:1.8; border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:10px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.16)); box-shadow: var(--shadow-sm); }
+  html[data-theme="dark"] .board { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
 
-  .game-body{
-    display:flex;
-    gap:20px;
-    align-items:flex-start;
-    flex-wrap:wrap;
-  }
+  .panel { flex:1; min-width:360px; border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:12px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.12)); box-shadow: var(--shadow-sm); }
+  html[data-theme="dark"] .panel { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
 
-  /* left: board, right: words & controls */
-  .board{
-    flex:1 1 580px;
-  }
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-  }
+  /* status chips */
+  .status-row { display:flex; align-items:center; justify-content:space-between; }
+  .chips { display:flex; gap:10px; align-items:center; }
+  .chip { padding:8px 12px; border-radius:12px; font-weight:800; background: rgba(255,255,255,0.8); }
+  html[data-theme="dark"] .chip { background: rgba(255,255,255,0.03); color:#e6eef8 }
 
-  /* image tiles (child mode) */
-  .image-tile{
-    height:110px;
-    background:linear-gradient(180deg,#fff,#f5f5f5);
-    border-radius:18px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-    color:#222;
-    border:6px solid transparent;
-    position:relative;
-    user-select:none;
+  /* arena grid (wider tiles using emoji) */
+  .arena { display:grid; grid-template-columns: repeat(5, 1fr); gap:14px; flex:1; padding:8px; align-content:start; }
+  .tile {
+    height:128px; border-radius:14px; position:relative; display:flex; align-items:center; justify-content:center;
+    font-size:64px; user-select:none; transition: transform .18s ease, box-shadow .18s ease;
+    background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.18));
   }
-  .image-tile.drop-over{outline:4px dashed #9f9f9f; transform:scale(1.01)}
-  .image-tile .label{position:absolute;left:10px;bottom:8px;font-size:12px;color:var(--muted)}
+  html[data-theme="dark"] .tile { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); }
+  .tile:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.06); }
+  .tile .label { position:absolute; left:12px; bottom:8px; font-size:13px; color:var(--muted); background:rgba(255,255,255,0.8); padding:6px 8px; border-radius:10px; font-weight:800; }
+  html[data-theme="dark"] .tile .label { background: rgba(6,8,15,0.6); color:var(--muted); }
 
-  /* category tiles (adult mode) */
-  .category-tile{
-    min-height:110px;
-    background:#fafafa;
-    border-radius:18px;
-    border:2px dashed #e6e6e6;
-    padding:10px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-    justify-content:flex-start;
-  }
-  .category-title{font-weight:700;font-size:14px;margin-bottom:6px}
+  .drop-over { outline: 4px dashed rgba(37,99,235,0.28); transform:scale(1.02); }
+  .matched { box-shadow: 0 18px 46px rgba(34,197,94,0.10); transform:scale(1.02); border:1px solid rgba(34,197,94,0.06); }
 
-  /* words panel */
-  .words{
-    width:320px;
-    display:flex;
-    flex-direction:column;
-    gap:12px;
+  /* words list */
+  .words-title { display:flex; justify-content:space-between; align-items:center; font-weight:900; }
+  .word-list { display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-top:8px; }
+  .word {
+    background: linear-gradient(180deg,#fff,#f3f7ff);
+    padding:12px; border-radius:12px; text-align:center; font-weight:900; cursor:grab; user-select:none; font-size:18px;
+    transition: transform .12s ease, color .22s ease;
   }
-  .word-list{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-  }
-  .word{
-    background:var(--btn);
-    border-radius:14px;
-    padding:12px;
-    text-align:center;
-    font-weight:700;
-    cursor:grab;
-    user-select:none;
-  }
-  .word.dragging{opacity:0.5}
-  .controls{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    margin-top:8px;
-  }
-  .small{
-    font-size:13px;color:var(--muted)
-  }
-  .quit-input{
-    flex:1;
-    padding:10px;
-    border-radius:8px;
-    border:1px solid #ddd;
-  }
-  .action-btn{
-    background:var(--panel);
-    border-radius:10px;
-    padding:10px 14px;
-    font-weight:700;
-    border:none;
-    cursor:pointer;
-  }
+  html[data-theme="dark"] .word { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); }
 
-  /* feedback area */
-  .feedback{
-    margin-top:14px;
-    min-height:22px;
-    font-weight:700;
-  }
-  .feedback.good{color:var(--good)}
-  .feedback.bad{color:var(--bad)}
+  /* TEXT COLOR SWITCH (light = black, dark = white) */
+  /* default */
+  .word { color: #0b1220; }
+  html[data-theme="dark"] .word { color: #ffffff; }
+
+  .word:active { transform: scale(.98); }
+  .word.dragging { opacity:0.45; }
+
+  /* controls */
+  .controls-row { display:flex; gap:8px; margin-top:6px; align-items:center; }
+  .quit-input { flex:1; padding:10px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); font-weight:800; }
+  html[data-theme="dark"] .quit-input { border:1px solid rgba(255,255,255,0.04); background: rgba(255,255,255,0.02); color:#e6eef8; }
+  .btn { padding:10px 12px; border-radius:10px; font-weight:800; cursor:pointer; border:none; }
+  .btn.primary { background: linear-gradient(90deg,var(--primary), #7c3aed); color:#fff; box-shadow: 0 10px 30px rgba(37,99,235,0.12); }
+
+  .feedback { min-height:22px; margin-top:8px; font-weight:800; color:var(--muted); }
+  .feedback.good { color:var(--success); } .feedback.bad { color:var(--danger); }
+
+  .progress { height:12px; background: rgba(0,0,0,0.04); border-radius:999px; overflow:hidden; margin-top:8px; }
+  .progress > i { display:block; height:100%; width:0%; background: linear-gradient(90deg,var(--primary), #7c3aed); transition: width 420ms cubic-bezier(.2,.9,.3,1); }
 
   /* overlay modals */
-  .overlay{
-    position:fixed;inset:0;
-    background:rgba(10,10,10,0.35);
-    display:flex;align-items:center;justify-content:center;
-    z-index:30;
-  }
-  .modal{
-    background:#fff;padding:20px;border-radius:12px;
-    width:94%;max-width:700px;
-  }
-  .modal h2{margin-top:0}
-  .modal .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
-  .modal .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+  .overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(2,6,23,0.48); z-index:90; }
+  .modal { background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,255,255,0.86)); padding:20px; border-radius:12px; width:92%; max-width:720px; box-shadow: var(--shadow-lg); }
+  html[data-theme="dark"] .modal { background: linear-gradient(180deg, rgba(6,8,15,0.96), rgba(6,8,15,0.86)); color:#e6eef8; }
 
-  /* win / gameover */
-  .center{
-    text-align:center;
-    padding:30px;
-  }
-
-  /* responsiveness */
-  @media(max-width:900px){
-    .game-body{flex-direction:column}
-    .words{width:100%}
-    .grid{grid-template-columns:repeat(2,1fr)}
-  }
+  /* responsive */
+  @media (max-width:1280px) { .arena { grid-template-columns: repeat(4,1fr); } .canvas{ width:98%; } }
+  @media (max-width:980px) { .main{ flex-direction:column; } .arena{ grid-template-columns: repeat(3,1fr);} .panel{ width:100%; } }
+  @media (max-width:600px) { .title{ font-size:42px; } .tile{ font-size:48px; height:100px; } }
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="card" role="application" aria-label="Match game app">
+  <div class="canvas" role="application" aria-label="MATCH game canvas" id="canvas">
     <header>
-      <h1>MATCH</h1>
-      <div class="logo">LOGO</div>
+      <div>
+        <h1 class="title">MATCH</h1>
+        <div class="subtitle">Final Project — Child & Adult Modes</div>
+      </div>
+
+      <div class="controls">
+        <div class="theme-toggle" id="themeToggle" role="button" tabindex="0" aria-pressed="false">
+          <span id="themeEmoji">🌞</span>
+          <span id="themeText" style="font-weight:900;margin-left:8px;color:var(--muted)">Light</span>
+        </div>
+        <button class="mode-btn" id="creditsBtn">CREDITS</button>
+      </div>
     </header>
 
-    <!-- Start Menu -->
-    <div class="menu" id="startMenu">
+    <div class="menu" id="menuBar">
       <button class="mode-btn" data-mode="child">CHILD</button>
       <button class="mode-btn" data-mode="adult">ADULT</button>
-      <button class="mode-btn quiet" id="creditsBtn">CREDITS</button>
     </div>
 
-    <!-- Game area -->
-    <div id="gameArea" style="display:none">
-      <div class="game-top">
-        <div class="status">
-          <div class="score-box">Score: <span id="score">0</span>/5</div>
-          <div class="lives-box" id="livesBox" style="display:none">Lives: <span id="lives">3</span></div>
-        </div>
-        <div class="small">Type <strong>QUIT</strong> and press Enter to quit anytime</div>
-      </div>
-
-      <div class="game-body">
-        <div class="board" id="board">
-          <div class="grid" id="gridArea">
-            <!-- tiles injected here -->
+    <div class="main" id="mainArea" style="display:none" aria-hidden="true">
+      <!-- Board -->
+      <section class="board">
+        <div class="status-row">
+          <div class="chips">
+            <div class="chip">Score: <span id="score">0</span>/<strong>5</strong></div>
+            <div class="chip" id="livesChip" style="display:none">Lives: <span id="lives">3</span></div>
+            <div class="chip" id="timerChip" style="display:none">⏱ <span id="timer">10</span>s</div>
           </div>
-          <div class="feedback" id="feedback"></div>
-        </div>
-
-        <aside class="words" aria-label="Words and controls">
           <div>
-            <strong>Words</strong>
+            <button class="btn" id="quitBtnTop" title="Quit to menu">Quit</button>
           </div>
-          <div class="word-list" id="wordsList">
-            <!-- words injected here -->
-          </div>
+        </div>
 
-          <div class="controls">
-            <input class="quit-input" id="quitInput" placeholder='Type "QUIT" and press Enter' aria-label="quit input" />
-            <button class="action-btn" id="restartBtn">Restart</button>
-          </div>
+        <div class="arena" id="arena" aria-live="polite" aria-label="Match tiles area">
+          <!-- tiles injected here -->
+        </div>
 
-          <div style="margin-top:8px" class="small">Mode: <span id="currentMode">—</span></div>
-        </aside>
-      </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="feedback" id="feedback" role="status"></div>
+          <div style="flex:1">
+            <div class="progress"><i id="progressBar"></i></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right panel -->
+      <aside class="panel">
+        <div class="words-title">
+          <div style="font-weight:900;font-size:18px">Words</div>
+          <div style="color:var(--muted);font-weight:800">Drag → Drop</div>
+        </div>
+
+        <div class="word-list" id="wordsList" aria-label="Draggable words">
+          <!-- words injected here -->
+        </div>
+
+        <div class="controls-row">
+          <input id="quitInput" class="quit-input" placeholder='Type "QUIT" + Enter to exit' aria-label="Type QUIT to exit" />
+          <button class="btn primary" id="restartBtn">Restart</button>
+        </div>
+
+        <div style="margin-top:8px;color:var(--muted);font-weight:700">
+          Mode: <span id="currentMode">—</span>
+        </div>
+      </aside>
     </div>
 
-    <!-- Footer (credits) -->
-    <div id="credits" style="display:none;margin-top:10px;font-style:italic;color:var(--muted)">
-      Created by the Match Team — prototype demo.
+    <div id="creditsPanel" style="display:none;margin-top:10px;color:var(--muted);font-style:italic">
+      Prototype created by the Match Team — Final project demo.
     </div>
 
-    <!-- Overlays -->
-    <div id="rulesModal" class="overlay" style="display:none">
+    <!-- Rules Modal -->
+    <div class="overlay" id="rulesModal" aria-hidden="true">
       <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
         <h2 id="rulesTitle">Game Rules</h2>
-        <div id="rulesText"></div>
-        <div class="btn-row">
+        <div id="rulesText" style="color:var(--muted);margin-top:8px"></div>
+        <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px">
           <button class="btn" id="declineRules">Decline</button>
-          <button class="btn" id="acceptRules" style="background:var(--panel)">Accept</button>
+          <button class="btn primary" id="acceptRules">Accept</button>
         </div>
       </div>
     </div>
 
-    <div id="endModal" class="overlay" style="display:none">
-      <div class="modal center" role="dialog" aria-modal="true">
-        <div id="endMessage" style="font-size:20px;font-weight:700"></div>
-        <div style="margin-top:18px">
-          <button class="btn" id="playAgain">Play Again</button>
-          <button class="btn" id="exitBtn" style="background:var(--panel)">Exit</button>
+    <!-- End Modal -->
+    <div class="overlay" id="endModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" style="text-align:center;">
+        <div id="endMessage" style="font-size:20px;font-weight:900"></div>
+        <div style="margin-top:18px;display:flex;gap:12px;justify-content:center">
+          <button class="btn primary" id="playAgain">Play Again</button>
+          <button class="btn" id="exitBtn">Exit</button>
         </div>
       </div>
     </div>
 
   </div>
-</div>
 
 <script>
-/* -----------------------
-  Simple Match Game
-  Child mode: drag word to image (infinite tries)
-  Adult mode: drag word to category (3 lives)
-  Score to win: 5
-  QUIT: type QUIT + Enter to exit anytime
-------------------------*/
+/* MATCH — Final Project JS
+   - theme toggle with persistence
+   - emoji child tiles
+   - child/adult flows, hints, timer, lives
+   - words color: black in light mode, white in dark mode
+*/
 
-const startMenu = document.getElementById('startMenu');
+/* Elements */
+const menuBar = document.getElementById('menuBar');
+const mainArea = document.getElementById('mainArea');
+const arena = document.getElementById('arena');
+const wordsList = document.getElementById('wordsList');
+const scoreEl = document.getElementById('score');
+const livesChip = document.getElementById('livesChip');
+const livesEl = document.getElementById('lives');
+const timerChip = document.getElementById('timerChip');
+const timerEl = document.getElementById('timer');
+const feedback = document.getElementById('feedback');
+const progressBar = document.getElementById('progressBar');
+const currentModeEl = document.getElementById('currentMode');
+const quitInput = document.getElementById('quitInput');
+const restartBtn = document.getElementById('restartBtn');
+const quitBtnTop = document.getElementById('quitBtnTop');
+const creditsBtn = document.getElementById('creditsBtn');
+const creditsPanel = document.getElementById('creditsPanel');
+
 const rulesModal = document.getElementById('rulesModal');
 const rulesText = document.getElementById('rulesText');
 const acceptRules = document.getElementById('acceptRules');
 const declineRules = document.getElementById('declineRules');
-const gameArea = document.getElementById('gameArea');
-const gridArea = document.getElementById('gridArea');
-const wordsList = document.getElementById('wordsList');
-const scoreEl = document.getElementById('score');
-const livesBox = document.getElementById('livesBox');
-const livesEl = document.getElementById('lives');
-const feedback = document.getElementById('feedback');
-const currentModeEl = document.getElementById('currentMode');
-const quitInput = document.getElementById('quitInput');
-const creditsBtn = document.getElementById('creditsBtn');
-const credits = document.getElementById('credits');
-const restartBtn = document.getElementById('restartBtn');
 
 const endModal = document.getElementById('endModal');
 const endMessage = document.getElementById('endMessage');
 const playAgain = document.getElementById('playAgain');
 const exitBtn = document.getElementById('exitBtn');
 
-let mode = null; // 'child' | 'adult'
+const themeToggle = document.getElementById('themeToggle');
+const themeEmoji = document.getElementById('themeEmoji');
+const themeText = document.getElementById('themeText');
+
+/* State */
+let mode = null;
 let score = 0;
 let lives = 3;
-let targetPairs = 5; // win target
-let currentRoundData = null; // store words & target mapping
+const targetPairs = 5;
+let roundData = null;
+let adultTimer = null;
+let adultTimeLeft = 0;
+let hintAttempts = {};
 
-// Example datasets
-const childData = [
-  {imgLabel:'🐶', word:'Dog'},
-  {imgLabel:'🍎', word:'Apple'},
-  {imgLabel:'🚗', word:'Car'},
-  {imgLabel:'🐼', word:'Panda'},
-  {imgLabel:'🍌', word:'Banana'},
-  {imgLabel:'✈️', word:'Plane'},
-  {imgLabel:'⚽', word:'Ball'},
-  {imgLabel:'🍓', word:'Strawberry'}
+/* Emoji pool */
+const childPool = [
+  { emoji: '🐶', word: 'Dog' },
+  { emoji: '🍎', word: 'Apple' },
+  { emoji: '🚗', word: 'Car' },
+  { emoji: '🐼', word: 'Panda' },
+  { emoji: '🍌', word: 'Banana' },
+  { emoji: '✈️', word: 'Plane' },
+  { emoji: '⚽', word: 'Ball' },
+  { emoji: '🍓', word: 'Strawberry' },
+  { emoji: '🐱', word: 'Cat' },
+  { emoji: '🚲', word: 'Bike' }
 ];
 
 const adultData = {
-  categories: ['Fruits','Animals','Vehicles','Sports'],
+  categories: ['Animals','Fruits','Vehicles','Tools'],
   words: [
     {word:'Car',category:'Vehicles'},
     {word:'Banana',category:'Fruits'},
     {word:'Dog',category:'Animals'},
-    {word:'Tennis',category:'Sports'},
+    {word:'Hammer',category:'Tools'},
     {word:'Apple',category:'Fruits'},
     {word:'Cat',category:'Animals'},
     {word:'Bicycle',category:'Vehicles'},
-    {word:'Football',category:'Sports'},
+    {word:'Wrench',category:'Tools'},
     {word:'Kiwi',category:'Fruits'},
     {word:'Horse',category:'Animals'}
   ]
 };
 
-// Helpers
-function randSlice(arr,n){ return arr.slice().sort(()=>0.5-Math.random()).slice(0,n); }
-function shuffle(arr){ return arr.slice().sort(()=>0.5-Math.random()); }
+/* helpers */
+const randSlice = (arr,n)=>arr.slice().sort(()=>0.5-Math.random()).slice(0,n);
+const shuffle = (arr)=>arr.slice().sort(()=>0.5-Math.random());
+const clear = el => { while(el.firstChild) el.removeChild(el.firstChild); };
 
-function openRulesFor(modeChosen){
-  mode = modeChosen;
-  const text = mode==='child'
-    ? `<p><strong>Child Mode:</strong> Match the word to the picture. Get <strong>${targetPairs}</strong> right to win! If you make a mistake you'll be prompted to try again until it's correct.</p>`
-    : `<p><strong>Adult Mode:</strong> Match the word to the category. You have <strong>3 lives</strong>. Get <strong>${targetPairs}</strong> right to win! A wrong match costs a life.</p>`;
+/* THEME handling */
+function applyTheme(name){
+  document.documentElement.setAttribute('data-theme', name);
+  themeEmoji.textContent = name === 'dark' ? '🌜' : '🌞';
+  themeText.textContent = name === 'dark' ? 'Dark' : 'Light';
+  // Update word color explicitly (CSS already handles .word color based on data-theme,
+  // but ensure repaint by toggling a class on words if needed)
+  document.querySelectorAll('.word').forEach(w => {
+    // no-op here; CSS takes care. kept for future dynamic tweaks.
+  });
+  localStorage.setItem('match_theme', name);
+}
+(function initTheme(){
+  const saved = localStorage.getItem('match_theme') || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(saved);
+})();
+themeToggle.addEventListener('click', ()=> {
+  const cur = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+themeToggle.addEventListener('keydown', e => { if(e.key === 'Enter') themeToggle.click(); });
+
+/* MENU -> rules -> accept -> start */
+menuBar.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-mode]');
+  if(!btn) return;
+  mode = btn.dataset.mode;
+  openRules(mode);
+});
+
+function openRules(m){
+  const text = m === 'child'
+    ? `<strong>Child Mode</strong>: Drag the word to the emoji. Unlimited tries; a hint appears after 2 failed attempts on the same item. Win at ${targetPairs}/5.`
+    : `<strong>Adult Mode</strong>: Drag the word into the correct category. You have <strong>3 lives</strong> and <strong>10 seconds</strong> per attempt. Win at ${targetPairs}/5.`;
   rulesText.innerHTML = text;
   rulesModal.style.display = 'flex';
+  rulesModal.setAttribute('aria-hidden','false');
 }
+declineRules.addEventListener('click', ()=> { rulesModal.style.display='none'; rulesModal.setAttribute('aria-hidden','true'); });
+acceptRules.addEventListener('click', ()=> { rulesModal.style.display='none'; rulesModal.setAttribute('aria-hidden','true'); startGame(); });
 
-startMenu.addEventListener('click', (e)=>{
-  const btn = e.target.closest('button[data-mode]');
-  if(btn){
-    openRulesFor(btn.dataset.mode);
+/* start, restart, quit, credits */
+restartBtn.addEventListener('click', ()=> { if(!mode) return; if(confirm('Restart round?')) startGame(); });
+quitBtnTop.addEventListener('click', ()=> { if(confirm('Quit to menu?')) backToMenu(); });
+creditsBtn.addEventListener('click', ()=> { creditsPanel.style.display = creditsPanel.style.display === 'none' ? 'block' : 'none'; });
+
+playAgain.addEventListener('click', ()=> { endModal.style.display='none'; endModal.setAttribute('aria-hidden','true'); resetState(); startGame(); });
+exitBtn.addEventListener('click', ()=> backToMenu());
+
+quitInput.addEventListener('keydown', (e)=> {
+  if(e.key === 'Enter'){
+    if(quitInput.value.trim().toLowerCase() === 'quit'){ backToMenu(); }
+    else { alert('Type QUIT (case-insensitive) and press Enter to exit.'); quitInput.value=''; }
   }
 });
-creditsBtn.addEventListener('click', ()=>{
-  credits.style.display = credits.style.display === 'none' ? 'block' : 'none';
+
+/* keyboard quick quit */
+document.addEventListener('keydown', (e)=> {
+  if(e.ctrlKey && e.key.toLowerCase() === 'q'){ if(confirm('Quit to menu?')) backToMenu(); }
 });
 
-// Rules buttons
-declineRules.addEventListener('click', ()=>{
-  rulesModal.style.display = 'none';
-  // show thank you and reset
-  alert('Thank you for playing!');
-});
-acceptRules.addEventListener('click', ()=>{
-  rulesModal.style.display = 'none';
-  startGame();
-});
-
-// Start / Restart / Exit
+/* start game */
 function startGame(){
-  // init
-  score = 0;
-  lives = 3;
-  scoreEl.textContent = score;
-  livesEl.textContent = lives;
-  feedback.textContent = '';
+  score = 0; lives = 3; hintAttempts = {}; roundData = null;
+  scoreEl.textContent = score; livesEl.textContent = lives; feedback.textContent = '';
+  progressBar.style.width = '0%';
   currentModeEl.textContent = mode.toUpperCase();
-  startMenu.style.display = 'none';
-  gameArea.style.display = 'block';
-  livesBox.style.display = mode==='adult' ? 'block' : 'none';
+  menuBar.style.display = 'none'; mainArea.style.display = 'flex'; mainArea.setAttribute('aria-hidden','false');
+  livesChip.style.display = mode === 'adult' ? 'inline-flex' : 'none';
+  timerChip.style.display = mode === 'adult' ? 'inline-flex' : 'none';
   prepareRound();
 }
-restartBtn.addEventListener('click', ()=>{
-  // restart same mode
-  if(!mode) return;
-  if(confirm('Restart the round?')) startGame();
-});
-exitBtn.addEventListener('click', ()=> location.reload());
-playAgain.addEventListener('click', ()=> {
-  endModal.style.display='none';
-  startMenu.style.display='block';
-  gameArea.style.display='none';
-  mode = null;
-});
 
-// QUIT input behavior
-quitInput.addEventListener('keydown', (e)=>{
-  if(e.key === 'Enter'){
-    if(quitInput.value.trim().toLowerCase() === 'quit'){
-      location.reload();
-    } else {
-      alert('Type QUIT (case-insensitive) and press Enter to exit instantly.');
-      quitInput.value = '';
-    }
-  }
-});
+/* back to menu */
+function backToMenu(){
+  clearAdultTimer();
+  menuBar.style.display = 'flex'; mainArea.style.display = 'none'; resetState();
+}
 
-// Prepare a round (choose random 5 items and render)
+/* reset UI */
+function resetState(){
+  clear(arena); clear(wordsList); feedback.textContent = ''; scoreEl.textContent = '0';
+  progressBar.style.width = '0%'; currentModeEl.textContent = '—'; livesChip.style.display = 'none'; timerChip.style.display = 'none';
+  creditsPanel.style.display = 'none';
+}
+
+/* prepare round */
 function prepareRound(){
-  gridArea.innerHTML = '';
-  wordsList.innerHTML = '';
-  feedback.className = 'feedback';
+  clear(arena); clear(wordsList); feedback.className = 'feedback';
+  progressBar.style.width = ((score/targetPairs)*100) + '%';
+
   if(mode === 'child'){
-    const chosen = randSlice(childData, targetPairs);
-    currentRoundData = chosen.map((it,i)=>({id:i, imgLabel:it.imgLabel, word:it.word}));
-    renderChild(chosen);
+    const chosen = randSlice(childPool, targetPairs);
+    roundData = chosen.map((c,i)=>({id:i, emoji:c.emoji, word:c.word}));
+    renderChild(roundData);
   } else {
-    // select words and categories
-    const chosenWords = shuffle(adultData.words).slice(0, targetPairs);
-    currentRoundData = chosenWords.map((w,i)=>({id:i, word:w.word, category:w.category}));
-    renderAdult(currentRoundData, adultData.categories);
+    const chosen = shuffle(adultData.words).slice(0, targetPairs);
+    roundData = chosen.map((w,i)=>({id:i, word:w.word, category:w.category}));
+    renderAdult(roundData, adultData.categories);
   }
 }
 
+/* render child */
 function renderChild(items){
-  // create image tiles (drop zones)
-  items = shuffle(items);
-  items.forEach((it, idx)=>{
-    const tile = document.createElement('div');
-    tile.className='image-tile';
-    tile.dataset.id = it.word;
-    tile.innerHTML = `<div style="font-size:44px">${it.imgLabel}</div><div class="label">drop word here</div>`;
-    addDropHandlers(tile, (droppedWord)=>{
-      // check
-      const correct = droppedWord === it.word;
-      if(correct){
-        onCorrect();
-        // mark tile with small label of the matched word
-        tile.innerHTML = `<div style="font-size:38px">${it.imgLabel}</div><div class="label">${it.word}</div>`;
-        tile.style.borderColor = '#d9ffd9';
-        tile.setAttribute('data-matched','true');
+  const tiles = shuffle(items).map(it => {
+    const d = document.createElement('div');
+    d.className = 'tile';
+    d.dataset.word = it.word;
+    d.dataset.id = it.id;
+    d.innerHTML = `<div style="font-size:64px">${it.emoji}</div><div class="label">drop word</div>`;
+    addDrop(d, (droppedWord) => {
+      if(d.classList.contains('matched')) return;
+      if(droppedWord === it.word){
+        markMatched(d, it.word);
+        handleCorrect(it.word);
       } else {
-        onIncorrect();
+        hintAttempts[it.word] = (hintAttempts[it.word] || 0) + 1;
+        handleIncorrect();
+        if(hintAttempts[it.word] >= 2) showHint(d);
       }
     });
-    gridArea.appendChild(tile);
+    return d;
   });
-
-  // words list: shuffled words as draggable
-  const words = shuffle(items.map(i=>i.word));
-  words.forEach(w=>{
-    const el = createDraggableWord(w);
-    wordsList.appendChild(el);
-  });
+  tiles.forEach(t => arena.appendChild(t));
+  const words = shuffle(items.map(x=>x.word));
+  words.forEach(w => wordsList.appendChild(createWord(w)));
 }
 
+/* render adult */
 function renderAdult(wordsData, categories){
-  // categories as drop zones (4) - use provided categories or fill placeholders
-  const cats = categories.slice(0,4);
-  cats.forEach(cat=>{
-    const catTile = document.createElement('div');
-    catTile.className='category-tile';
-    catTile.dataset.category = cat;
-    catTile.innerHTML = `<div class="category-title">${cat}</div><div class="small">Drop words here</div>`;
-    addDropHandlers(catTile, (droppedWord)=>{
-      const mapping = currentRoundData.find(x=>x.word === droppedWord);
+  categories.slice(0,4).forEach(cat => {
+    const ct = document.createElement('div');
+    ct.className = 'tile';
+    ct.style.flexDirection = 'column';
+    ct.innerHTML = `<div style="font-size:18px;font-weight:900">${cat}</div><div class="label">drop words</div>`;
+    addDrop(ct, (droppedWord) => {
+      const mapping = roundData.find(x=>x.word === droppedWord);
       if(mapping && mapping.category === cat){
-        // good
-        onCorrect();
-        // show small pill for accepted match
-        const pill = document.createElement('div');
-        pill.textContent = droppedWord;
-        pill.style.padding='6px 8px';
-        pill.style.borderRadius='8px';
-        pill.style.background='#f3fff3';
-        pill.style.marginTop='6px';
-        pill.style.fontWeight='700';
-        catTile.appendChild(pill);
+        addMatchedPill(ct, droppedWord);
+        handleCorrect(droppedWord);
+        removeWordFromList(droppedWord);
       } else {
-        onIncorrect();
+        handleIncorrect();
       }
     });
-    const wrapper = document.createElement('div');
-    wrapper.style.marginBottom = '12px';
-    wrapper.appendChild(catTile);
-    gridArea.appendChild(wrapper);
+    arena.appendChild(ct);
   });
 
-  // word tiles
   const words = shuffle(wordsData.map(x=>x.word));
-  words.forEach(w=>{
-    const el = createDraggableWord(w);
-    wordsList.appendChild(el);
-  });
+  words.forEach(w => wordsList.appendChild(createWord(w)));
+
+  startAdultTimer();
 }
 
-/* Drag helpers */
-function createDraggableWord(text){
+/* draggable word creation */
+function createWord(text){
   const el = document.createElement('div');
-  el.className='word';
-  el.draggable = true;
+  el.className = 'word';
   el.textContent = text;
-  el.setAttribute('data-word', text);
-  el.addEventListener('dragstart', e=>{
-    e.dataTransfer.setData('text/plain', text);
-    el.classList.add('dragging');
-  });
-  el.addEventListener('dragend', e=>{
-    el.classList.remove('dragging');
+  el.draggable = true;
+  el.tabIndex = 0;
+  el.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', text); el.classList.add('dragging'); });
+  el.addEventListener('dragend', e => el.classList.remove('dragging'));
+  el.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){ window._picked = text; el.classList.add('dragging'); feedback.textContent = `Picked "${text}". Click a target.`; setTimeout(()=>{ el.classList.remove('dragging'); window._picked=null; }, 3500); }
   });
   return el;
 }
-
-function addDropHandlers(targetEl, onDropCallback){
-  targetEl.addEventListener('dragover', e=>{ e.preventDefault(); targetEl.classList.add('drop-over'); });
-  targetEl.addEventListener('dragleave', e=>{ targetEl.classList.remove('drop-over'); });
-  targetEl.addEventListener('drop', e=>{
-    e.preventDefault();
-    targetEl.classList.remove('drop-over');
-    const word = e.dataTransfer.getData('text/plain');
-    if(!word) return;
-    // block if already matched (for child)
-    if(targetEl.dataset.matched === 'true') return;
-    onDropCallback(word);
-  });
+function removeWordFromList(word){
+  const el = Array.from(document.querySelectorAll('.word')).find(n => n.textContent === word);
+  if(el) el.remove();
 }
 
-/* Game events */
-function onCorrect(){
-  score++;
-  scoreEl.textContent = score;
-  feedback.textContent = 'Correct! +1';
-  feedback.className='feedback good';
-  checkWin();
-}
-function onIncorrect(){
-  feedback.textContent = "That's incorrect. Try again!";
-  feedback.className='feedback bad';
-  if(mode === 'adult'){
-    lives--;
-    livesEl.textContent = lives;
-    if(lives <= 0){
-      // game over
-      showEnd(false);
-    }
-  }
-  // child mode loops until correct, so no penalty
+/* drop handlers (drag & click) */
+function addDrop(target, onDrop){
+  target.addEventListener('dragover', e=>{ e.preventDefault(); target.classList.add('drop-over'); });
+  target.addEventListener('dragleave', e=>{ target.classList.remove('drop-over'); });
+  target.addEventListener('drop', e=>{ e.preventDefault(); target.classList.remove('drop-over'); const w = e.dataTransfer.getData('text/plain') || window._picked; if(!w) return; onDrop(w); });
+  target.addEventListener('click', e=>{ const w = window._picked; if(!w) return; onDrop(w); window._picked = null; });
 }
 
-function checkWin(){
-  if(score >= targetPairs){
-    showEnd(true);
-  } else {
-    // after a successful match, remove or disable the word tile so it cannot be reused
-    // find word tiles with that word and disable them
-    const lastWord = Array.from(document.querySelectorAll('.word')).find(w=>w.classList.contains('dragging')) || null;
-    // generally the dropped word text exists in feedback label or recent drop; simpler: remove any word tile whose text appears in matched tiles
-    // remove matched words: find matched labels in grid
-    const matchedWords = Array.from(document.querySelectorAll('[data-matched="true"] .label')).map(l=>l.textContent).filter(Boolean);
-    document.querySelectorAll('.word').forEach(w=>{
-      if(matchedWords.includes(w.textContent)){
-        w.remove();
-      }
-    });
-  }
+/* visuals */
+function markMatched(tile, word){
+  tile.classList.add('matched');
+  const lbl = tile.querySelector('.label'); if(lbl) lbl.textContent = word;
+  tile.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:420,easing:'ease-out'});
+}
+function addMatchedPill(container, text){
+  const pill = document.createElement('div');
+  pill.textContent = text; pill.style.marginTop='10px'; pill.style.padding='6px 8px'; pill.style.borderRadius='10px'; pill.style.fontWeight='900'; pill.style.background='rgba(34,197,94,0.08)';
+  container.appendChild(pill);
 }
 
-function showEnd(won){
-  endModal.style.display = 'flex';
-  if(won){
-    endMessage.innerHTML = `🎉 Congratulations — You won! Score: ${score}/${targetPairs}`;
-  } else {
-    endMessage.innerHTML = `Game Over! You ran out of lives. Score: ${score}/${targetPairs}`;
-  }
+/* game events */
+function handleCorrect(word){
+  score++; scoreEl.textContent = score; feedback.textContent = '✅ Correct! +1'; feedback.className = 'feedback good';
+  updateProgress(); clearAdultTimer();
+  // clean matched words from word list
+  const matchedWords = Array.from(document.querySelectorAll('.tile.matched .label')).map(l=>l.textContent).filter(Boolean);
+  document.querySelectorAll('.word').forEach(w => { if(matchedWords.includes(w.textContent)) w.remove(); });
+  if(mode === 'adult' && score < targetPairs) setTimeout(()=> startAdultTimer(), 700);
+  if(score >= targetPairs) showEnd(true);
+}
+function handleIncorrect(){
+  feedback.textContent = "❌ That's incorrect."; feedback.className = 'feedback bad';
+  if(mode === 'adult'){ lives--; livesEl.textContent = lives; clearAdultTimer(); if(lives <= 0) showEnd(false); else setTimeout(()=> startAdultTimer(), 700); }
 }
 
-/* Keyboard escape: allow Escape to go back to menu */
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape'){
-    if(confirm('Exit to menu?')){
-      location.reload();
-    }
-  }
-});
+/* hint */
+function showHint(tile){
+  tile.animate([{ boxShadow:'0 0 0 0 rgba(96,165,250,0.0)' },{ boxShadow:'0 0 0 16px rgba(96,165,250,0.08)' },{ boxShadow:'0 0 0 0 rgba(96,165,250,0.0)' }],{duration:900,easing:'ease-out'});
+}
 
-/* initial instruction: small helpful guard */
-(function init(){
-  // wire start menu buttons
-  document.querySelectorAll('button[data-mode]').forEach(b=>{
-    b.addEventListener('click', ()=> {
-      // handled above - openRulesFor sets mode and shows rules
-    });
-  });
-})();
+/* progress */
+function updateProgress(){ const pct = Math.round((score/targetPairs)*100); progressBar.style.width = pct + '%'; }
+
+/* adult timer */
+function startAdultTimer(){
+  clearAdultTimer(); adultTimeLeft = 10; timerEl.textContent = adultTimeLeft;
+  adultTimer = setInterval(()=> {
+    adultTimeLeft--; timerEl.textContent = adultTimeLeft;
+    if(adultTimeLeft <= 0){ clearAdultTimer(); lives--; livesEl.textContent = lives; feedback.textContent = "⏱ Time's up! -1 life"; feedback.className = 'feedback bad'; if(lives <= 0) showEnd(false); else setTimeout(()=> startAdultTimer(), 700); }
+  }, 1000);
+}
+function clearAdultTimer(){ if(adultTimer){ clearInterval(adultTimer); adultTimer = null; timerEl.textContent = '10'; } }
+
+/* end modal */
+function showEnd(win){ clearAdultTimer(); endMessage.textContent = win ? `🎉 You won — ${score}/${targetPairs}` : `Game Over — ${score}/${targetPairs}`; endModal.style.display = 'flex'; endModal.setAttribute('aria-hidden','false'); }
+
+/* cleanup & auto-restart timer if necessary */
+setInterval(()=> {
+  const matchedWords = Array.from(document.querySelectorAll('.tile.matched .label')).map(l=>l.textContent).filter(Boolean);
+  document.querySelectorAll('.word').forEach(w => { if(matchedWords.includes(w.textContent)) w.remove(); });
+  updateProgress();
+  if(mode === 'adult' && !adultTimer && score < targetPairs && document.querySelectorAll('.word').length > 0) startAdultTimer();
+}, 700);
+
+/* init */
+function init(){
+  mainArea.style.display = 'none';
+  menuBar.style.display = 'flex';
+  creditsPanel.style.display = 'none';
+  scoreEl.textContent = '0';
+  // ensure word text color matches theme (CSS handles it) — but force reflow on load
+  document.querySelectorAll('.word').forEach(w=>w.style.color = window.getComputedStyle(w).color);
+}
+init();
+
+/* expose quick functions if needed */
+window.MATCH = { startGame, backToMenu };
 
 </script>
 </body>
 </html>
-
