@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Match Game</title>
+<style>
+:root{
+  --bg:#fff;
+  --panel:#e6e6e6;
+  --accent:#222;
+  --muted:#666;
+  --good:#2b9d3a;
+  --bad:#e04b4b;
+  --btn:#dcdcdc;
+  font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif
+}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--accent)}
+.app{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:28px}
+header{width:100%;max-width:1000px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+header h1{font-size:46px;margin:0;background:var(--panel);padding:14px 34px;border-radius:6px}
+.logo{font-size:14px;color:var(--muted);border:2px solid var(--panel);padding:8px 12px;border-radius:10px}
+.card{width:100%;max-width:1000px;background:#fff;padding:22px;border-radius:14px;box-shadow:0 6px 22px rgba(20,20,20,.06)}
+.menu{display:flex;gap:18px;justify-content:center;margin-bottom:20px}
+.mode-btn{background:var(--panel);border:none;border-radius:40px;padding:18px 36px;font-weight:700;font-size:28px;cursor:pointer}
+.mode-btn.quiet{font-size:18px;padding:10px 18px;border-radius:16px}
+.game-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.status{display:flex;gap:18px;font-weight:600}
+.score-box,.lives-box{background:var(--panel);padding:8px 12px;border-radius:12px}
+.game-body{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.board{flex:1 1 580px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.image-tile{height:110px;background:linear-gradient(180deg,#fff,#f5f5f5);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#222;border:6px solid transparent;position:relative;user-select:none}
+.image-tile.drop-over{outline:4px dashed #9f9f9f;transform:scale(1.01)}
+.image-tile .label{position:absolute;left:10px;bottom:8px;font-size:12px;color:var(--muted)}
+.category-tile{min-height:110px;background:#fafafa;border-radius:18px;border:2px dashed #e6e6e6;padding:10px;display:flex;flex-direction:column;gap:8px}
+.category-title{font-weight:700;font-size:14px;margin-bottom:6px}
+.words{width:320px;display:flex;flex-direction:column;gap:12px}
+.word-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.word{background:var(--btn);border-radius:14px;padding:12px;text-align:center;font-weight:700;cursor:grab;user-select:none}
+.word.dragging{opacity:.5}
+.controls{display:flex;gap:10px;margin-top:8px;align-items:center}
+.small{font-size:13px;color:var(--muted)}
+.quit-input{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd}
+.action-btn{background:var(--panel);border-radius:10px;padding:10px 14px;font-weight:700;border:none;cursor:pointer}
+.feedback{margin-top:14px;min-height:22px;font-weight:700}
+.feedback.good{color:var(--good)}
+.feedback.bad{color:var(--bad)}
+.overlay{position:fixed;inset:0;background:rgba(10,10,10,.35);display:flex;justify-content:center;align-items:center;z-index:30}
+.modal{background:#fff;padding:20px;border-radius:12px;width:94%;max-width:700px}
+.modal h2{margin-top:0}
+.modal .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+.modal .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+.center{text-align:center;padding:30px}
+@media(max-width:900px){
+  .game-body{flex-direction:column}
+  .words{width:100%}
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="card">
+<header><h1>MATCH</h1><div class="logo">LOGO</div></header>
+<div class="menu" id="menu">
+<button class="mode-btn" data-mode="child">CHILD</button>
+<button class="mode-btn" data-mode="adult">ADULT</button>
+<button class="mode-btn quiet" id="creditsBtn">CREDITS</button>
+</div>
+<div id="game" style="display:none">
+<div class="game-top">
+<div class="status">
+<div class="score-box">Score: <span id="score">0</span>/5</div>
+<div class="lives-box" id="livesBox" style="display:none">Lives: <span id="lives">3</span></div>
+</div>
+<div class="small">Type QUIT and press Enter to quit</div>
+</div>
+<div class="game-body">
+<div class="board"><div class="grid" id="grid"></div><div class="feedback" id="feedback"></div></div>
+<aside class="words">
+<div><strong>Words</strong></div>
+<div class="word-list" id="wordList"></div>
+<div class="controls">
+<input class="quit-input" id="quit" placeholder='Type "QUIT"'>
+<button class="action-btn" id="restart">Restart</button>
+</div>
+<div class="small">Mode: <span id="modeNow">—</span></div>
+</aside>
+</div>
+</div>
+<div id="credits" style="display:none;margin-top:10px;color:var(--muted);font-style:italic">Created by a 2nd year CS student</div>
+<div id="rules" class="overlay" style="display:none">
+<div class="modal">
+<h2>Rules</h2>
+<div id="ruleText"></div>
+<div class="btn-row">
+<button class="btn" id="decline">Decline</button>
+<button class="btn" id="accept" style="background:var(--panel)">Accept</button>
+</div>
+</div>
+</div>
+<div id="end" class="overlay" style="display:none">
+<div class="modal center">
+<div id="endMsg" style="font-size:20px;font-weight:700"></div>
+<div style="margin-top:18px">
+<button class="btn" id="again">Play Again</button>
+<button class="btn" id="exit" style="background:var(--panel)">Exit</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+const menu=document.getElementById("menu"),rules=document.getElementById("rules"),ruleText=document.getElementById("ruleText"),accept=document.getElementById("accept"),decline=document.getElementById("decline"),game=document.getElementById("game"),grid=document.getElementById("grid"),wordList=document.getElementById("wordList"),scoreEl=document.getElementById("score"),livesBox=document.getElementById("livesBox"),livesEl=document.getElementById("lives"),feedback=document.getElementById("feedback"),modeNow=document.getElementById("modeNow"),quit=document.getElementById("quit"),creditsBtn=document.getElementById("creditsBtn"),credits=document.getElementById("credits"),restart=document.getElementById("restart"),end=document.getElementById("end"),endMsg=document.getElementById("endMsg"),again=document.getElementById("again"),exit=document.getElementById("exit");
+let mode=null,score=0,lives=3,target=5,current=null;
+const childData=[{img:"🐶",word:"Dog"},{img:"🍎",word:"Apple"},{img:"🚗",word:"Car"},{img:"🐼",word:"Panda"},{img:"🍌",word:"Banana"},{img:"✈️",word:"Plane"},{img:"⚽",word:"Ball"},{img:"🍓",word:"Strawberry"}];
+const adultData={categories:["Fruits","Animals","Vehicles","Sports"],words:[{word:"Car",category:"Vehicles"},{word:"Banana",category:"Fruits"},{word:"Dog",category:"Animals"},{word:"Tennis",category:"Sports"},{word:"Apple",category:"Fruits"},{word:"Cat",category:"Animals"},{word:"Bicycle",category:"Vehicles"},{word:"Football",category:"Sports"},{word:"Kiwi",category:"Fruits"},{word:"Horse",category:"Animals"}]};
+function shuffle(a){return a.slice().sort(()=>Math.random()-.5)}
+function rand(a,n){return shuffle(a).slice(0,n)}
+function openRules(m){mode=m;ruleText.innerHTML=m==="child"?`<p>Match the word to the picture. Get ${target} right to win.</p>`:`<p>Match words to categories. You have 3 lives. Get ${target} right to win.</p>`;rules.style.display="flex"}
+menu.addEventListener("click",e=>{const b=e.target.closest("button[data-mode]");if(b)openRules(b.dataset.mode)});
+creditsBtn.addEventListener("click",()=>{credits.style.display=credits.style.display==="none"?"block":"none"});
+decline.addEventListener("click",()=>{rules.style.display="none";alert("Thanks for playing!")});
+accept.addEventListener("click",()=>{rules.style.display="none";start()});
+function start(){score=0;lives=3;scoreEl.textContent=score;livesEl.textContent=lives;feedback.textContent="";modeNow.textContent=mode.toUpperCase();menu.style.display="none";game.style.display="block";livesBox.style.display=mode==="adult"?"block":"none";round()}
+restart.addEventListener("click",()=>{if(mode&&confirm("Restart?"))start()});
+exit.addEventListener("click",()=>location.reload());
+again.addEventListener("click",()=>{end.style.display="none";menu.style.display="block";game.style.display="none";mode=null});
+quit.addEventListener("keydown",e=>{if(e.key==="Enter"){if(quit.value.trim().toLowerCase()==="quit")location.reload();else{alert("Type QUIT and press Enter");quit.value=""}}});
+function round(){grid.innerHTML="";wordList.innerHTML="";feedback.className="feedback";if(mode==="child"){const c=rand(childData,target);current=c.map((x,i)=>({id:i,img:x.img,word:x.word}));childMode(c)}else{const w=rand(adultData.words,target);current=w.map((x,i)=>({id:i,word:x.word,cat:x.category}));adultMode(current,adultData.categories)}}
+function childMode(list){list=shuffle(list);list.forEach(it=>{const t=document.createElement("div");t.className="image-tile";t.dataset.id=it.word;t.innerHTML=`<div style="font-size:44px">${it.img}</div><div class="label">drop word here</div>`;dropHandler(t,w=>{if(w===it.word){correct();t.innerHTML=`<div style="font-size:38px">${it.img}</div><div class="label">${it.word}</div>`;t.style.borderColor="#d9ffd9";t.dataset.matched="true"}else wrong()});grid.appendChild(t)});shuffle(list.map(x=>x.word)).forEach(w=>wordList.appendChild(draggable(w)))}
+function adultMode(words,cats){cats.slice(0,4).forEach(c=>{const box=document.createElement("div");box.className="category-tile";box.dataset.cat=c;box.innerHTML=`<div class="category-title">${c}</div><div class="small">Drop words here</div>`;dropHandler(box,w=>{const f=current.find(x=>x.word===w);if(f&&f.cat===c){correct();const pill=document.createElement("div");pill.textContent=w;pill.style.cssText="padding:6px 8px;margin-top:6px;background:#f3fff3;border-radius:8px;font-weight:700";box.appendChild(pill)}else wrong()});grid.appendChild(box)});shuffle(words.map(x=>x.word)).forEach(w=>wordList.appendChild(draggable(w)))}
+function draggable(text){const el=document.createElement("div");el.className="word";el.draggable=true;el.textContent=text;el.dataset.word=text;el.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",text);el.classList.add("dragging")});el.addEventListener("dragend",()=>el.classList.remove("dragging"));return el}
+function dropHandler(el,cb){el.addEventListener("dragover",e=>{e.preventDefault();el.classList.add("drop-over")});el.addEventListener("dragleave",()=>el.classList.remove("drop-over"));el.addEventListener("drop",e=>{e.preventDefault();el.classList.remove("drop-over");const w=e.dataTransfer.getData("text/plain");if(!w||el.dataset.matched==="true")return;cb(w)})}
+function correct(){score++;scoreEl.textContent=score;feedback.textContent="Correct!";feedback.className="feedback good";checkWin()}
+function wrong(){feedback.textContent="Wrong!";feedback.className="feedback bad";if(mode==="adult"){lives--;livesEl.textContent=lives;if(lives<=0)endGame(false)}}
+function checkWin(){if(score>=target)endGame(true);else{const matched=[...document.querySelectorAll('[data-matched="true"] .label')].map(l=>l.textContent);document.querySelectorAll(".word").forEach(w=>{if(matched.includes(w.textContent))w.remove()})}}
+function endGame(win){end.style.display="flex";endMsg.innerHTML=win?`🎉 You won! Score: ${score}/${target}`:`Game Over! Score: ${score}/${target}`}
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&confirm("Exit to menu?"))location.reload()});
+</script>
+</body>
+</html>
