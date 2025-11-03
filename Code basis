@@ -1,143 +1,645 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Match Game</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Match — Child & Adult Modes (Demo)</title>
 <style>
-:root{
-  --bg:#fff;
-  --panel:#e6e6e6;
-  --accent:#222;
-  --muted:#666;
-  --good:#2b9d3a;
-  --bad:#e04b4b;
-  --btn:#dcdcdc;
-  font-family:Segoe UI,Roboto,Helvetica,Arial,sans-serif
-}
-html,body{height:100%;margin:0;background:var(--bg);color:var(--accent)}
-.app{min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:28px}
-header{width:100%;max-width:1000px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-header h1{font-size:46px;margin:0;background:var(--panel);padding:14px 34px;border-radius:6px}
-.logo{font-size:14px;color:var(--muted);border:2px solid var(--panel);padding:8px 12px;border-radius:10px}
-.card{width:100%;max-width:1000px;background:#fff;padding:22px;border-radius:14px;box-shadow:0 6px 22px rgba(20,20,20,.06)}
-.menu{display:flex;gap:18px;justify-content:center;margin-bottom:20px}
-.mode-btn{background:var(--panel);border:none;border-radius:40px;padding:18px 36px;font-weight:700;font-size:28px;cursor:pointer}
-.mode-btn.quiet{font-size:18px;padding:10px 18px;border-radius:16px}
-.game-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.status{display:flex;gap:18px;font-weight:600}
-.score-box,.lives-box{background:var(--panel);padding:8px 12px;border-radius:12px}
-.game-body{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
-.board{flex:1 1 580px}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.image-tile{height:110px;background:linear-gradient(180deg,#fff,#f5f5f5);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#222;border:6px solid transparent;position:relative;user-select:none}
-.image-tile.drop-over{outline:4px dashed #9f9f9f;transform:scale(1.01)}
-.image-tile .label{position:absolute;left:10px;bottom:8px;font-size:12px;color:var(--muted)}
-.category-tile{min-height:110px;background:#fafafa;border-radius:18px;border:2px dashed #e6e6e6;padding:10px;display:flex;flex-direction:column;gap:8px}
-.category-title{font-weight:700;font-size:14px;margin-bottom:6px}
-.words{width:320px;display:flex;flex-direction:column;gap:12px}
-.word-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.word{background:var(--btn);border-radius:14px;padding:12px;text-align:center;font-weight:700;cursor:grab;user-select:none}
-.word.dragging{opacity:.5}
-.controls{display:flex;gap:10px;margin-top:8px;align-items:center}
-.small{font-size:13px;color:var(--muted)}
-.quit-input{flex:1;padding:10px;border-radius:8px;border:1px solid #ddd}
-.action-btn{background:var(--panel);border-radius:10px;padding:10px 14px;font-weight:700;border:none;cursor:pointer}
-.feedback{margin-top:14px;min-height:22px;font-weight:700}
-.feedback.good{color:var(--good)}
-.feedback.bad{color:var(--bad)}
-.overlay{position:fixed;inset:0;background:rgba(10,10,10,.35);display:flex;justify-content:center;align-items:center;z-index:30}
-.modal{background:#fff;padding:20px;border-radius:12px;width:94%;max-width:700px}
-.modal h2{margin-top:0}
-.modal .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
-.modal .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
-.center{text-align:center;padding:30px}
-@media(max-width:900px){
-  .game-body{flex-direction:column}
-  .words{width:100%}
-  .grid{grid-template-columns:repeat(2,1fr)}
-}
+  :root{
+    --bg:#ffffff;
+    --panel:#e6e6e6;
+    --accent:#222;
+    --muted:#666;
+    --good:#2b9d3a;
+    --bad:#e04b4b;
+    --btn:#dcdcdc;
+    --card-radius:28px;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  html,body{height:100%;margin:0;background:var(--bg);color:var(--accent);}
+  .app{
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:28px;
+  }
+
+  /* Header / Logo */
+  header{
+    width:100%;
+    max-width:1000px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  header h1{
+    font-size:48px;
+    margin:0;
+    background:var(--panel);
+    padding:14px 36px;
+    border-radius:6px;
+    letter-spacing:2px;
+  }
+  .logo{
+    font-size:14px;
+    color:var(--muted);
+    border:2px solid var(--panel);
+    padding:8px 12px;
+    border-radius:10px;
+  }
+
+  /* Main card */
+  .card{
+    width:100%;
+    max-width:1000px;
+    background: #fff;
+    padding:22px;
+    border-radius:14px;
+    box-shadow: 0 6px 22px rgba(20,20,20,0.06);
+  }
+
+  /* menu */
+  .menu{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    justify-content:center;
+    margin-bottom:20px;
+  }
+  .mode-btn{
+    background:var(--panel);
+    border-radius:40px;
+    padding:18px 36px;
+    font-weight:700;
+    font-size:28px;
+    cursor:pointer;
+    border: none;
+    box-shadow: inset 0 -6px 0 rgba(0,0,0,0.03);
+  }
+  .mode-btn.quiet{font-size:18px;padding:10px 18px;border-radius:16px}
+
+  /* game area */
+  .game-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .status{
+    display:flex;
+    gap:18px;
+    align-items:center;
+    font-weight:600;
+  }
+  .score-box, .lives-box{
+    background:var(--panel);
+    padding:8px 12px;border-radius:12px;
+  }
+
+  .game-body{
+    display:flex;
+    gap:20px;
+    align-items:flex-start;
+    flex-wrap:wrap;
+  }
+
+  /* left: board, right: words & controls */
+  .board{
+    flex:1 1 580px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+  }
+
+  /* image tiles (child mode) */
+  .image-tile{
+    height:110px;
+    background:linear-gradient(180deg,#fff,#f5f5f5);
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    color:#222;
+    border:6px solid transparent;
+    position:relative;
+    user-select:none;
+  }
+  .image-tile.drop-over{outline:4px dashed #9f9f9f; transform:scale(1.01)}
+  .image-tile .label{position:absolute;left:10px;bottom:8px;font-size:12px;color:var(--muted)}
+
+  /* category tiles (adult mode) */
+  .category-tile{
+    min-height:110px;
+    background:#fafafa;
+    border-radius:18px;
+    border:2px dashed #e6e6e6;
+    padding:10px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    justify-content:flex-start;
+  }
+  .category-title{font-weight:700;font-size:14px;margin-bottom:6px}
+
+  /* words panel */
+  .words{
+    width:320px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .word-list{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  .word{
+    background:var(--btn);
+    border-radius:14px;
+    padding:12px;
+    text-align:center;
+    font-weight:700;
+    cursor:grab;
+    user-select:none;
+  }
+  .word.dragging{opacity:0.5}
+  .controls{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-top:8px;
+  }
+  .small{
+    font-size:13px;color:var(--muted)
+  }
+  .quit-input{
+    flex:1;
+    padding:10px;
+    border-radius:8px;
+    border:1px solid #ddd;
+  }
+  .action-btn{
+    background:var(--panel);
+    border-radius:10px;
+    padding:10px 14px;
+    font-weight:700;
+    border:none;
+    cursor:pointer;
+  }
+
+  /* feedback area */
+  .feedback{
+    margin-top:14px;
+    min-height:22px;
+    font-weight:700;
+  }
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+
+  /* overlay modals */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(10,10,10,0.35);
+    display:flex;align-items:center;justify-content:center;
+    z-index:30;
+  }
+  .modal{
+    background:#fff;padding:20px;border-radius:12px;
+    width:94%;max-width:700px;
+  }
+  .modal h2{margin-top:0}
+  .modal .btn-row{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+  .modal .btn{padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+
+  /* win / gameover */
+  .center{
+    text-align:center;
+    padding:30px;
+  }
+
+  /* responsiveness */
+  @media(max-width:900px){
+    .game-body{flex-direction:column}
+    .words{width:100%}
+    .grid{grid-template-columns:repeat(2,1fr)}
+  }
 </style>
 </head>
 <body>
 <div class="app">
-<div class="card">
-<header><h1>MATCH</h1><div class="logo">LOGO</div></header>
-<div class="menu" id="menu">
-<button class="mode-btn" data-mode="child">CHILD</button>
-<button class="mode-btn" data-mode="adult">ADULT</button>
-<button class="mode-btn quiet" id="creditsBtn">CREDITS</button>
+  <div class="card" role="application" aria-label="Match game app">
+    <header>
+      <h1>MATCH</h1>
+      <div class="logo">LOGO</div>
+    </header>
+
+    <!-- Start Menu -->
+    <div class="menu" id="startMenu">
+      <button class="mode-btn" data-mode="child">CHILD</button>
+      <button class="mode-btn" data-mode="adult">ADULT</button>
+      <button class="mode-btn quiet" id="creditsBtn">CREDITS</button>
+    </div>
+
+    <!-- Game area -->
+    <div id="gameArea" style="display:none">
+      <div class="game-top">
+        <div class="status">
+          <div class="score-box">Score: <span id="score">0</span>/5</div>
+          <div class="lives-box" id="livesBox" style="display:none">Lives: <span id="lives">3</span></div>
+        </div>
+        <div class="small">Type <strong>QUIT</strong> and press Enter to quit anytime</div>
+      </div>
+
+      <div class="game-body">
+        <div class="board" id="board">
+          <div class="grid" id="gridArea">
+            <!-- tiles injected here -->
+          </div>
+          <div class="feedback" id="feedback"></div>
+        </div>
+
+        <aside class="words" aria-label="Words and controls">
+          <div>
+            <strong>Words</strong>
+          </div>
+          <div class="word-list" id="wordsList">
+            <!-- words injected here -->
+          </div>
+
+          <div class="controls">
+            <input class="quit-input" id="quitInput" placeholder='Type "QUIT" and press Enter' aria-label="quit input" />
+            <button class="action-btn" id="restartBtn">Restart</button>
+          </div>
+
+          <div style="margin-top:8px" class="small">Mode: <span id="currentMode">—</span></div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Footer (credits) -->
+    <div id="credits" style="display:none;margin-top:10px;font-style:italic;color:var(--muted)">
+      Created by the Match Team — prototype demo.
+    </div>
+
+    <!-- Overlays -->
+    <div id="rulesModal" class="overlay" style="display:none">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="rulesTitle">
+        <h2 id="rulesTitle">Game Rules</h2>
+        <div id="rulesText"></div>
+        <div class="btn-row">
+          <button class="btn" id="declineRules">Decline</button>
+          <button class="btn" id="acceptRules" style="background:var(--panel)">Accept</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="endModal" class="overlay" style="display:none">
+      <div class="modal center" role="dialog" aria-modal="true">
+        <div id="endMessage" style="font-size:20px;font-weight:700"></div>
+        <div style="margin-top:18px">
+          <button class="btn" id="playAgain">Play Again</button>
+          <button class="btn" id="exitBtn" style="background:var(--panel)">Exit</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
-<div id="game" style="display:none">
-<div class="game-top">
-<div class="status">
-<div class="score-box">Score: <span id="score">0</span>/5</div>
-<div class="lives-box" id="livesBox" style="display:none">Lives: <span id="lives">3</span></div>
-</div>
-<div class="small">Type QUIT and press Enter to quit</div>
-</div>
-<div class="game-body">
-<div class="board"><div class="grid" id="grid"></div><div class="feedback" id="feedback"></div></div>
-<aside class="words">
-<div><strong>Words</strong></div>
-<div class="word-list" id="wordList"></div>
-<div class="controls">
-<input class="quit-input" id="quit" placeholder='Type "QUIT"'>
-<button class="action-btn" id="restart">Restart</button>
-</div>
-<div class="small">Mode: <span id="modeNow">—</span></div>
-</aside>
-</div>
-</div>
-<div id="credits" style="display:none;margin-top:10px;color:var(--muted);font-style:italic">Created by a 2nd year CS student</div>
-<div id="rules" class="overlay" style="display:none">
-<div class="modal">
-<h2>Rules</h2>
-<div id="ruleText"></div>
-<div class="btn-row">
-<button class="btn" id="decline">Decline</button>
-<button class="btn" id="accept" style="background:var(--panel)">Accept</button>
-</div>
-</div>
-</div>
-<div id="end" class="overlay" style="display:none">
-<div class="modal center">
-<div id="endMsg" style="font-size:20px;font-weight:700"></div>
-<div style="margin-top:18px">
-<button class="btn" id="again">Play Again</button>
-<button class="btn" id="exit" style="background:var(--panel)">Exit</button>
-</div>
-</div>
-</div>
-</div>
-</div>
+
 <script>
-const menu=document.getElementById("menu"),rules=document.getElementById("rules"),ruleText=document.getElementById("ruleText"),accept=document.getElementById("accept"),decline=document.getElementById("decline"),game=document.getElementById("game"),grid=document.getElementById("grid"),wordList=document.getElementById("wordList"),scoreEl=document.getElementById("score"),livesBox=document.getElementById("livesBox"),livesEl=document.getElementById("lives"),feedback=document.getElementById("feedback"),modeNow=document.getElementById("modeNow"),quit=document.getElementById("quit"),creditsBtn=document.getElementById("creditsBtn"),credits=document.getElementById("credits"),restart=document.getElementById("restart"),end=document.getElementById("end"),endMsg=document.getElementById("endMsg"),again=document.getElementById("again"),exit=document.getElementById("exit");
-let mode=null,score=0,lives=3,target=5,current=null;
-const childData=[{img:"🐶",word:"Dog"},{img:"🍎",word:"Apple"},{img:"🚗",word:"Car"},{img:"🐼",word:"Panda"},{img:"🍌",word:"Banana"},{img:"✈️",word:"Plane"},{img:"⚽",word:"Ball"},{img:"🍓",word:"Strawberry"}];
-const adultData={categories:["Fruits","Animals","Vehicles","Sports"],words:[{word:"Car",category:"Vehicles"},{word:"Banana",category:"Fruits"},{word:"Dog",category:"Animals"},{word:"Tennis",category:"Sports"},{word:"Apple",category:"Fruits"},{word:"Cat",category:"Animals"},{word:"Bicycle",category:"Vehicles"},{word:"Football",category:"Sports"},{word:"Kiwi",category:"Fruits"},{word:"Horse",category:"Animals"}]};
-function shuffle(a){return a.slice().sort(()=>Math.random()-.5)}
-function rand(a,n){return shuffle(a).slice(0,n)}
-function openRules(m){mode=m;ruleText.innerHTML=m==="child"?`<p>Match the word to the picture. Get ${target} right to win.</p>`:`<p>Match words to categories. You have 3 lives. Get ${target} right to win.</p>`;rules.style.display="flex"}
-menu.addEventListener("click",e=>{const b=e.target.closest("button[data-mode]");if(b)openRules(b.dataset.mode)});
-creditsBtn.addEventListener("click",()=>{credits.style.display=credits.style.display==="none"?"block":"none"});
-decline.addEventListener("click",()=>{rules.style.display="none";alert("Thanks for playing!")});
-accept.addEventListener("click",()=>{rules.style.display="none";start()});
-function start(){score=0;lives=3;scoreEl.textContent=score;livesEl.textContent=lives;feedback.textContent="";modeNow.textContent=mode.toUpperCase();menu.style.display="none";game.style.display="block";livesBox.style.display=mode==="adult"?"block":"none";round()}
-restart.addEventListener("click",()=>{if(mode&&confirm("Restart?"))start()});
-exit.addEventListener("click",()=>location.reload());
-again.addEventListener("click",()=>{end.style.display="none";menu.style.display="block";game.style.display="none";mode=null});
-quit.addEventListener("keydown",e=>{if(e.key==="Enter"){if(quit.value.trim().toLowerCase()==="quit")location.reload();else{alert("Type QUIT and press Enter");quit.value=""}}});
-function round(){grid.innerHTML="";wordList.innerHTML="";feedback.className="feedback";if(mode==="child"){const c=rand(childData,target);current=c.map((x,i)=>({id:i,img:x.img,word:x.word}));childMode(c)}else{const w=rand(adultData.words,target);current=w.map((x,i)=>({id:i,word:x.word,cat:x.category}));adultMode(current,adultData.categories)}}
-function childMode(list){list=shuffle(list);list.forEach(it=>{const t=document.createElement("div");t.className="image-tile";t.dataset.id=it.word;t.innerHTML=`<div style="font-size:44px">${it.img}</div><div class="label">drop word here</div>`;dropHandler(t,w=>{if(w===it.word){correct();t.innerHTML=`<div style="font-size:38px">${it.img}</div><div class="label">${it.word}</div>`;t.style.borderColor="#d9ffd9";t.dataset.matched="true"}else wrong()});grid.appendChild(t)});shuffle(list.map(x=>x.word)).forEach(w=>wordList.appendChild(draggable(w)))}
-function adultMode(words,cats){cats.slice(0,4).forEach(c=>{const box=document.createElement("div");box.className="category-tile";box.dataset.cat=c;box.innerHTML=`<div class="category-title">${c}</div><div class="small">Drop words here</div>`;dropHandler(box,w=>{const f=current.find(x=>x.word===w);if(f&&f.cat===c){correct();const pill=document.createElement("div");pill.textContent=w;pill.style.cssText="padding:6px 8px;margin-top:6px;background:#f3fff3;border-radius:8px;font-weight:700";box.appendChild(pill)}else wrong()});grid.appendChild(box)});shuffle(words.map(x=>x.word)).forEach(w=>wordList.appendChild(draggable(w)))}
-function draggable(text){const el=document.createElement("div");el.className="word";el.draggable=true;el.textContent=text;el.dataset.word=text;el.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",text);el.classList.add("dragging")});el.addEventListener("dragend",()=>el.classList.remove("dragging"));return el}
-function dropHandler(el,cb){el.addEventListener("dragover",e=>{e.preventDefault();el.classList.add("drop-over")});el.addEventListener("dragleave",()=>el.classList.remove("drop-over"));el.addEventListener("drop",e=>{e.preventDefault();el.classList.remove("drop-over");const w=e.dataTransfer.getData("text/plain");if(!w||el.dataset.matched==="true")return;cb(w)})}
-function correct(){score++;scoreEl.textContent=score;feedback.textContent="Correct!";feedback.className="feedback good";checkWin()}
-function wrong(){feedback.textContent="Wrong!";feedback.className="feedback bad";if(mode==="adult"){lives--;livesEl.textContent=lives;if(lives<=0)endGame(false)}}
-function checkWin(){if(score>=target)endGame(true);else{const matched=[...document.querySelectorAll('[data-matched="true"] .label')].map(l=>l.textContent);document.querySelectorAll(".word").forEach(w=>{if(matched.includes(w.textContent))w.remove()})}}
-function endGame(win){end.style.display="flex";endMsg.innerHTML=win?`🎉 You won! Score: ${score}/${target}`:`Game Over! Score: ${score}/${target}`}
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&confirm("Exit to menu?"))location.reload()});
+/* -----------------------
+  Simple Match Game
+  Child mode: drag word to image (infinite tries)
+  Adult mode: drag word to category (3 lives)
+  Score to win: 5
+  QUIT: type QUIT + Enter to exit anytime
+------------------------*/
+
+const startMenu = document.getElementById('startMenu');
+const rulesModal = document.getElementById('rulesModal');
+const rulesText = document.getElementById('rulesText');
+const acceptRules = document.getElementById('acceptRules');
+const declineRules = document.getElementById('declineRules');
+const gameArea = document.getElementById('gameArea');
+const gridArea = document.getElementById('gridArea');
+const wordsList = document.getElementById('wordsList');
+const scoreEl = document.getElementById('score');
+const livesBox = document.getElementById('livesBox');
+const livesEl = document.getElementById('lives');
+const feedback = document.getElementById('feedback');
+const currentModeEl = document.getElementById('currentMode');
+const quitInput = document.getElementById('quitInput');
+const creditsBtn = document.getElementById('creditsBtn');
+const credits = document.getElementById('credits');
+const restartBtn = document.getElementById('restartBtn');
+
+const endModal = document.getElementById('endModal');
+const endMessage = document.getElementById('endMessage');
+const playAgain = document.getElementById('playAgain');
+const exitBtn = document.getElementById('exitBtn');
+
+let mode = null; // 'child' | 'adult'
+let score = 0;
+let lives = 3;
+let targetPairs = 5; // win target
+let currentRoundData = null; // store words & target mapping
+
+// Example datasets
+const childData = [
+  {imgLabel:'🐶', word:'Dog'},
+  {imgLabel:'🍎', word:'Apple'},
+  {imgLabel:'🚗', word:'Car'},
+  {imgLabel:'🐼', word:'Panda'},
+  {imgLabel:'🍌', word:'Banana'},
+  {imgLabel:'✈️', word:'Plane'},
+  {imgLabel:'⚽', word:'Ball'},
+  {imgLabel:'🍓', word:'Strawberry'}
+];
+
+const adultData = {
+  categories: ['Fruits','Animals','Vehicles','Sports'],
+  words: [
+    {word:'Car',category:'Vehicles'},
+    {word:'Banana',category:'Fruits'},
+    {word:'Dog',category:'Animals'},
+    {word:'Tennis',category:'Sports'},
+    {word:'Apple',category:'Fruits'},
+    {word:'Cat',category:'Animals'},
+    {word:'Bicycle',category:'Vehicles'},
+    {word:'Football',category:'Sports'},
+    {word:'Kiwi',category:'Fruits'},
+    {word:'Horse',category:'Animals'}
+  ]
+};
+
+// Helpers
+function randSlice(arr,n){ return arr.slice().sort(()=>0.5-Math.random()).slice(0,n); }
+function shuffle(arr){ return arr.slice().sort(()=>0.5-Math.random()); }
+
+function openRulesFor(modeChosen){
+  mode = modeChosen;
+  const text = mode==='child'
+    ? `<p><strong>Child Mode:</strong> Match the word to the picture. Get <strong>${targetPairs}</strong> right to win! If you make a mistake you'll be prompted to try again until it's correct.</p>`
+    : `<p><strong>Adult Mode:</strong> Match the word to the category. You have <strong>3 lives</strong>. Get <strong>${targetPairs}</strong> right to win! A wrong match costs a life.</p>`;
+  rulesText.innerHTML = text;
+  rulesModal.style.display = 'flex';
+}
+
+startMenu.addEventListener('click', (e)=>{
+  const btn = e.target.closest('button[data-mode]');
+  if(btn){
+    openRulesFor(btn.dataset.mode);
+  }
+});
+creditsBtn.addEventListener('click', ()=>{
+  credits.style.display = credits.style.display === 'none' ? 'block' : 'none';
+});
+
+// Rules buttons
+declineRules.addEventListener('click', ()=>{
+  rulesModal.style.display = 'none';
+  // show thank you and reset
+  alert('Thank you for playing!');
+});
+acceptRules.addEventListener('click', ()=>{
+  rulesModal.style.display = 'none';
+  startGame();
+});
+
+// Start / Restart / Exit
+function startGame(){
+  // init
+  score = 0;
+  lives = 3;
+  scoreEl.textContent = score;
+  livesEl.textContent = lives;
+  feedback.textContent = '';
+  currentModeEl.textContent = mode.toUpperCase();
+  startMenu.style.display = 'none';
+  gameArea.style.display = 'block';
+  livesBox.style.display = mode==='adult' ? 'block' : 'none';
+  prepareRound();
+}
+restartBtn.addEventListener('click', ()=>{
+  // restart same mode
+  if(!mode) return;
+  if(confirm('Restart the round?')) startGame();
+});
+exitBtn.addEventListener('click', ()=> location.reload());
+playAgain.addEventListener('click', ()=> {
+  endModal.style.display='none';
+  startMenu.style.display='block';
+  gameArea.style.display='none';
+  mode = null;
+});
+
+// QUIT input behavior
+quitInput.addEventListener('keydown', (e)=>{
+  if(e.key === 'Enter'){
+    if(quitInput.value.trim().toLowerCase() === 'quit'){
+      location.reload();
+    } else {
+      alert('Type QUIT (case-insensitive) and press Enter to exit instantly.');
+      quitInput.value = '';
+    }
+  }
+});
+
+// Prepare a round (choose random 5 items and render)
+function prepareRound(){
+  gridArea.innerHTML = '';
+  wordsList.innerHTML = '';
+  feedback.className = 'feedback';
+  if(mode === 'child'){
+    const chosen = randSlice(childData, targetPairs);
+    currentRoundData = chosen.map((it,i)=>({id:i, imgLabel:it.imgLabel, word:it.word}));
+    renderChild(chosen);
+  } else {
+    // select words and categories
+    const chosenWords = shuffle(adultData.words).slice(0, targetPairs);
+    currentRoundData = chosenWords.map((w,i)=>({id:i, word:w.word, category:w.category}));
+    renderAdult(currentRoundData, adultData.categories);
+  }
+}
+
+function renderChild(items){
+  // create image tiles (drop zones)
+  items = shuffle(items);
+  items.forEach((it, idx)=>{
+    const tile = document.createElement('div');
+    tile.className='image-tile';
+    tile.dataset.id = it.word;
+    tile.innerHTML = `<div style="font-size:44px">${it.imgLabel}</div><div class="label">drop word here</div>`;
+    addDropHandlers(tile, (droppedWord)=>{
+      // check
+      const correct = droppedWord === it.word;
+      if(correct){
+        onCorrect();
+        // mark tile with small label of the matched word
+        tile.innerHTML = `<div style="font-size:38px">${it.imgLabel}</div><div class="label">${it.word}</div>`;
+        tile.style.borderColor = '#d9ffd9';
+        tile.setAttribute('data-matched','true');
+      } else {
+        onIncorrect();
+      }
+    });
+    gridArea.appendChild(tile);
+  });
+
+  // words list: shuffled words as draggable
+  const words = shuffle(items.map(i=>i.word));
+  words.forEach(w=>{
+    const el = createDraggableWord(w);
+    wordsList.appendChild(el);
+  });
+}
+
+function renderAdult(wordsData, categories){
+  // categories as drop zones (4) - use provided categories or fill placeholders
+  const cats = categories.slice(0,4);
+  cats.forEach(cat=>{
+    const catTile = document.createElement('div');
+    catTile.className='category-tile';
+    catTile.dataset.category = cat;
+    catTile.innerHTML = `<div class="category-title">${cat}</div><div class="small">Drop words here</div>`;
+    addDropHandlers(catTile, (droppedWord)=>{
+      const mapping = currentRoundData.find(x=>x.word === droppedWord);
+      if(mapping && mapping.category === cat){
+        // good
+        onCorrect();
+        // show small pill for accepted match
+        const pill = document.createElement('div');
+        pill.textContent = droppedWord;
+        pill.style.padding='6px 8px';
+        pill.style.borderRadius='8px';
+        pill.style.background='#f3fff3';
+        pill.style.marginTop='6px';
+        pill.style.fontWeight='700';
+        catTile.appendChild(pill);
+      } else {
+        onIncorrect();
+      }
+    });
+    const wrapper = document.createElement('div');
+    wrapper.style.marginBottom = '12px';
+    wrapper.appendChild(catTile);
+    gridArea.appendChild(wrapper);
+  });
+
+  // word tiles
+  const words = shuffle(wordsData.map(x=>x.word));
+  words.forEach(w=>{
+    const el = createDraggableWord(w);
+    wordsList.appendChild(el);
+  });
+}
+
+/* Drag helpers */
+function createDraggableWord(text){
+  const el = document.createElement('div');
+  el.className='word';
+  el.draggable = true;
+  el.textContent = text;
+  el.setAttribute('data-word', text);
+  el.addEventListener('dragstart', e=>{
+    e.dataTransfer.setData('text/plain', text);
+    el.classList.add('dragging');
+  });
+  el.addEventListener('dragend', e=>{
+    el.classList.remove('dragging');
+  });
+  return el;
+}
+
+function addDropHandlers(targetEl, onDropCallback){
+  targetEl.addEventListener('dragover', e=>{ e.preventDefault(); targetEl.classList.add('drop-over'); });
+  targetEl.addEventListener('dragleave', e=>{ targetEl.classList.remove('drop-over'); });
+  targetEl.addEventListener('drop', e=>{
+    e.preventDefault();
+    targetEl.classList.remove('drop-over');
+    const word = e.dataTransfer.getData('text/plain');
+    if(!word) return;
+    // block if already matched (for child)
+    if(targetEl.dataset.matched === 'true') return;
+    onDropCallback(word);
+  });
+}
+
+/* Game events */
+function onCorrect(){
+  score++;
+  scoreEl.textContent = score;
+  feedback.textContent = 'Correct! +1';
+  feedback.className='feedback good';
+  checkWin();
+}
+function onIncorrect(){
+  feedback.textContent = "That's incorrect. Try again!";
+  feedback.className='feedback bad';
+  if(mode === 'adult'){
+    lives--;
+    livesEl.textContent = lives;
+    if(lives <= 0){
+      // game over
+      showEnd(false);
+    }
+  }
+  // child mode loops until correct, so no penalty
+}
+
+function checkWin(){
+  if(score >= targetPairs){
+    showEnd(true);
+  } else {
+    // after a successful match, remove or disable the word tile so it cannot be reused
+    // find word tiles with that word and disable them
+    const lastWord = Array.from(document.querySelectorAll('.word')).find(w=>w.classList.contains('dragging')) || null;
+    // generally the dropped word text exists in feedback label or recent drop; simpler: remove any word tile whose text appears in matched tiles
+    // remove matched words: find matched labels in grid
+    const matchedWords = Array.from(document.querySelectorAll('[data-matched="true"] .label')).map(l=>l.textContent).filter(Boolean);
+    document.querySelectorAll('.word').forEach(w=>{
+      if(matchedWords.includes(w.textContent)){
+        w.remove();
+      }
+    });
+  }
+}
+
+function showEnd(won){
+  endModal.style.display = 'flex';
+  if(won){
+    endMessage.innerHTML = `🎉 Congratulations — You won! Score: ${score}/${targetPairs}`;
+  } else {
+    endMessage.innerHTML = `Game Over! You ran out of lives. Score: ${score}/${targetPairs}`;
+  }
+}
+
+/* Keyboard escape: allow Escape to go back to menu */
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape'){
+    if(confirm('Exit to menu?')){
+      location.reload();
+    }
+  }
+});
+
+/* initial instruction: small helpful guard */
+(function init(){
+  // wire start menu buttons
+  document.querySelectorAll('button[data-mode]').forEach(b=>{
+    b.addEventListener('click', ()=> {
+      // handled above - openRulesFor sets mode and shows rules
+    });
+  });
+})();
+
 </script>
 </body>
 </html>
+
