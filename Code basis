@@ -261,7 +261,7 @@
    - child/adult flows, hints, timer, lives
    - words color: black in light mode, white in dark mode
 */
-
+#https://developer.mozilla.org
 /* Elements */
 const menuBar = document.getElementById('menuBar');
 const mainArea = document.getElementById('mainArea');
