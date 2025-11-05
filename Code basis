@@ -441,7 +441,7 @@ function prepareRound(){
     renderAdult(roundData, adultData.categories);
   }
 }
-
+#https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf?
 /* render child */
 function renderChild(items){
   const tiles = shuffle(items).map(it => {
@@ -532,7 +532,7 @@ function addMatchedPill(container, text){
   pill.textContent = text; pill.style.marginTop='10px'; pill.style.padding='6px 8px'; pill.style.borderRadius='10px'; pill.style.fontWeight='900'; pill.style.background='rgba(34,197,94,0.08)';
   container.appendChild(pill);
 }
-
+#https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf?
 /* game events */
 function handleCorrect(word){
   score++; scoreEl.textContent = score; feedback.textContent = '✅ Correct! +1'; feedback.className = 'feedback good';
@@ -576,7 +576,7 @@ setInterval(()=> {
   updateProgress();
   if(mode === 'adult' && !adultTimer && score < targetPairs && document.querySelectorAll('.word').length > 0) startAdultTimer();
 }, 700);
-
+#https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf
 /* init */
 function init(){
   mainArea.style.display = 'none';
