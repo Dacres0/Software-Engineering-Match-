@@ -237,7 +237,7 @@
     </div>
 
     <div id="creditsPanel" style="display:none;margin-top:10px;color:var(--muted);font-style:italic">
-      Prototype created by the Match Team — Final project demo.
+      By Daniel and MK.
     </div>
 
     <!-- Rules Modal -->
