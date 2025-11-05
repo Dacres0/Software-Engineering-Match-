@@ -526,7 +526,7 @@ function markMatched(tile, word){
   tile.classList.add('matched');
   const lbl = tile.querySelector('.label'); if(lbl) lbl.textContent = word;
   tile.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:420,easing:'ease-out'});
-}
+} #evrerything with pill or chip is containing items in a specific size or distance
 function addMatchedPill(container, text){
   const pill = document.createElement('div');
   pill.textContent = text; pill.style.marginTop='10px'; pill.style.padding='6px 8px'; pill.style.borderRadius='10px'; pill.style.fontWeight='900'; pill.style.background='rgba(34,197,94,0.08)';
@@ -577,7 +577,7 @@ setInterval(()=> {
   if(mode === 'adult' && !adultTimer && score < targetPairs && document.querySelectorAll('.word').length > 0) startAdultTimer();
 }, 700);
 #https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf
-/* init */
+/* init */ #short for intialise, start up function 
 function init(){
   mainArea.style.display = 'none';
   menuBar.style.display = 'flex';
