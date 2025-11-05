@@ -5,17 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>MATCH — Final Project (Presentation)</title>
 
-<!--
-  MATCH — Final Presentation Edition
-  - Landscape framed UI
-  - Hybrid Light/Dark theme (persisted)
-  - Animated background gradient (Option A)
-  - Emoji-based child tiles
-  - Child & Adult modes, hints, 3 lives (adult), 10s timer (adult), win at 5
-  - Draggable words: black text in light mode, white in dark mode
-  - Single-file HTML/CSS/JS
-  - Linked conceptually to "Match — Project Activities & Plan"
--->
 
 <style>
   :root{
