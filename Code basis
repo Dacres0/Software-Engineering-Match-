@@ -369,7 +369,7 @@ menuBar.addEventListener('click', (e)=>{
   mode = btn.dataset.mode;
   openRules(mode);
 });
-
+#sourced similar code from https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf
 function openRules(m){
   const text = m === 'child'
     ? `<strong>Child Mode</strong>: Drag the word to the emoji. Unlimited tries; a hint appears after 2 failed attempts on the same item. Win at ${targetPairs}/5.`
