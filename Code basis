@@ -55,7 +55,7 @@
   html[data-theme="dark"] .canvas {
     background: linear-gradient(180deg, rgba(6,8,15,0.86), rgba(8,12,24,0.6));
   }
-
+#https://webdesignerdepot.com/modern-web-layout-with-flexbox
   /* title */
   header { display:flex; align-items:center; justify-content:space-between; gap:8px }
   .title { font-size:56px; margin:0; font-weight:900; letter-spacing:6px; color:var(--accent); }
