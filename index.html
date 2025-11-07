@@ -3,8 +3,19 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>MATCH — Project (Presentation)</title>
+<title>MATCH — Final Project (Presentation)</title>
 
+<!--
+  MATCH — Final Presentation Edition
+  - Landscape framed UI
+  - Hybrid Light/Dark theme (persisted)
+  - Animated background gradient (Option A)
+  - Emoji-based child tiles
+  - Child & Adult modes, hints, 3 lives (adult), 10s timer (adult), win at 5
+  - Draggable words: black text in light mode, white in dark mode
+  - Single-file HTML/CSS/JS
+  - Linked conceptually to "Match — Project Activities & Plan"
+-->
 
 <style>
   :root{
@@ -55,7 +66,7 @@
   html[data-theme="dark"] .canvas {
     background: linear-gradient(180deg, rgba(6,8,15,0.86), rgba(8,12,24,0.6));
   }
-#https://webdesignerdepot.com/modern-web-layout-with-flexbox
+
   /* title */
   header { display:flex; align-items:center; justify-content:space-between; gap:8px }
   .title { font-size:56px; margin:0; font-weight:900; letter-spacing:6px; color:var(--accent); }
@@ -226,7 +237,7 @@
     </div>
 
     <div id="creditsPanel" style="display:none;margin-top:10px;color:var(--muted);font-style:italic">
-      By Daniel and MK.
+      Prototype created by the Match Team — Final project demo.
     </div>
 
     <!-- Rules Modal -->
@@ -261,7 +272,7 @@
    - child/adult flows, hints, timer, lives
    - words color: black in light mode, white in dark mode
 */
-#https://developer.mozilla.org
+
 /* Elements */
 const menuBar = document.getElementById('menuBar');
 const mainArea = document.getElementById('mainArea');
@@ -369,7 +380,7 @@ menuBar.addEventListener('click', (e)=>{
   mode = btn.dataset.mode;
   openRules(mode);
 });
-#sourced similar code from https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf
+
 function openRules(m){
   const text = m === 'child'
     ? `<strong>Child Mode</strong>: Drag the word to the emoji. Unlimited tries; a hint appears after 2 failed attempts on the same item. Win at ${targetPairs}/5.`
@@ -441,7 +452,7 @@ function prepareRound(){
     renderAdult(roundData, adultData.categories);
   }
 }
-#https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf?
+
 /* render child */
 function renderChild(items){
   const tiles = shuffle(items).map(it => {
@@ -526,13 +537,13 @@ function markMatched(tile, word){
   tile.classList.add('matched');
   const lbl = tile.querySelector('.label'); if(lbl) lbl.textContent = word;
   tile.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:420,easing:'ease-out'});
-} #evrerything with pill or chip is containing items in a specific size or distance
+}
 function addMatchedPill(container, text){
   const pill = document.createElement('div');
   pill.textContent = text; pill.style.marginTop='10px'; pill.style.padding='6px 8px'; pill.style.borderRadius='10px'; pill.style.fontWeight='900'; pill.style.background='rgba(34,197,94,0.08)';
   container.appendChild(pill);
 }
-#https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf?
+
 /* game events */
 function handleCorrect(word){
   score++; scoreEl.textContent = score; feedback.textContent = '✅ Correct! +1'; feedback.className = 'feedback good';
@@ -576,8 +587,8 @@ setInterval(()=> {
   updateProgress();
   if(mode === 'adult' && !adultTimer && score < targetPairs && document.querySelectorAll('.word').length > 0) startAdultTimer();
 }, 700);
-#https://dev.to/jscrambler/build-a-simple-game-in-vanilla-js-with-the-drag-and-drop-api-58lf
-/* init */ #short for intialise, start up function 
+
+/* init */
 function init(){
   mainArea.style.display = 'none';
   menuBar.style.display = 'flex';
